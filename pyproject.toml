@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[metadata]
+name = "nrel-pipes"
+version = "0.0.1"
+description = "A Python package for NREL PIPES developers"
+authors = ["Jianli Gu <jianli.gu@nrel.gov>", "Jordan Eisenman <jordan.eisenman@nrel.gov>"]
+
+[options]
+python_requires = ">=3.8"
+
+[options.packages]
+find_namespace = "nrel-pipes.pipes"
