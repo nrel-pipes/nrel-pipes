@@ -6,6 +6,9 @@ class Pipes(object):
     def __init__(self):
         pass
     
+    def get_project(self):
+        pass
+
     def get_modelrun(self):
         pass
 
