@@ -1,0 +1,38 @@
+[dataset]
+name = ""
+version = ""
+version_status = ""  # Select from 'Current', 'Expired', or 'Unresolved'
+data_format = ""
+schema_info = [""]
+weather_years = [] # e.g. [2022, 2023, etc.]
+model_years = [] # e.g. [2022, etc.]
+units = [""]
+scenarios = [""] # which scenarios (project or model) the dataset is associated with
+sensitivities = [""]
+relevant_links = [""] # e.g., an external transformation script
+
+description = ""
+comments = ""
+
+[dataset.registration_author]
+username = ""  # e.g. {"username": "xxxx"}
+
+[dataset.source_code] # source code related to data
+location = ""  # e.g. github url
+branch = ""
+
+[dataset.temporal_info]
+extent = "a representative week for each season of year"
+fidelity = "1 min"
+# can add more options to be more specific but the above two are required
+
+[dataset.spatial_info]
+extent = "LA City"
+fidelity = "county"
+# can add more options to be more specific but the above two are required
+
+[dataset.location] # key-value pairs about this location
+type = ""  # the storage type, like lustre, S3, github, Blob, etc
+path = ""  # the path to the data on storage system.
+description = """
+"""
