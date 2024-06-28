@@ -7,7 +7,7 @@ def read_requirements():
         return req_file.read().splitlines()
 
 setup(
-    name="nrelpipes",
+    name="nrel_pipes",
     description="A Python package for NREL PIPES developers",
     version=__version__,
     author="NREL",
