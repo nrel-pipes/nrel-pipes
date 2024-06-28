@@ -2,12 +2,12 @@ from setuptools import setup, find_namespace_packages
 
 __version__ = "0.0.1"
 
-requirements = [
-    "requests"
-]
+def read_requirements():
+    with open('requirements.txt') as req_file:
+        return req_file.read().splitlines()
 
 setup(
-    name="nrel-pipes",
+    name="nrelpipes",
     description="A Python package for NREL PIPES developers",
     version=__version__,
     author="NREL",
@@ -15,7 +15,7 @@ setup(
     packages=find_namespace_packages(include=["pipes*", "pipes_sdk*", "pipes_cmd*"]),
     python_requires=">=3.8.0",
     url="https://github.com/nrel-pipes/nrel-pipes",
-    install_requires=requirements,
+    install_requires=read_requirements(),
     include_package_data=True,
     keywords="nrel pipes",
     classifiers=[
