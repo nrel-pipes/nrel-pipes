@@ -25,7 +25,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'pipes-cli=pipes_cmd.cli:main',
+            'pipes=pipes_cmd.cli:main',
         ],
     },
 )

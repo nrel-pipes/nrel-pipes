@@ -13,7 +13,6 @@ from pipes_cmd.cli.service import service, login
 def main(args=None):
     """PIPES CLI client"""
 
-
 main.add_command(config)
 main.add_command(dataset)
 main.add_command(task)
