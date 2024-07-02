@@ -4,12 +4,12 @@ import sys
 import click
 import requests
 import json
-from pipes.utils import (
+from p.utils import (
     get_token, get_or_create_pipes_session, prompt_overwrite, 
     get_selected_user_context_from_session, print_response,
     copy_template, load_template, ClientSettings
 )
-from pipes.client import ProjectClient
+from p.client import ProjectClient
 
 
 

@@ -4,7 +4,7 @@ import sys
 
 import click
 
-from pipes.utils import (
+from p.utils import (
     prompt_overwrite, get_selected_user_context_from_session, print_response, 
     copy_template, load_template
     )

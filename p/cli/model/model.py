@@ -2,16 +2,13 @@ import json
 import click
 import requests
 import toml
-from pipes_cmd.utils.cli import prompt_overwrite, get_selected_user_context_from_session
-from pipes_cmd.utils.response import print_response
-from pipes_cmd.utils.template import load_template
-from pipes_cmd.config.settings import ClientSettings
-from pipes_cmd.config.session import get_or_create_pipes_session, get_token
-from pipes_cmd.utils.client import CLIENT
+from p.utils import prompt_overwrite, get_selected_user_context_from_session, print_response, load_template, ClientSettings, get_or_create_pipes_session, get_token
+from p.client import ModelClient
 
 
 settings = ClientSettings()
 TOKEN = get_token()
+CLIENT = ModelClient(url=settings.get_server(), token=TOKEN)
 
 @click.group()
 def model(args=None):

@@ -1,7 +1,7 @@
 import time
 
 from hero import Hero
-from pipes.sdk.core import Pipes
+from p.sdk.core import Pipes
 
 
 def execute_modelrun(hero, task):

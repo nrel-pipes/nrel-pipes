@@ -3,9 +3,9 @@ import sys
 import toml
 from pprint import pprint
 import click
-from pipes.utils import print_response, dump_template, load_template, TEMPLATE_FILES, covert_camel_to_snake, prompt_overwrite, get_token, ClientSettings
+from p.utils import print_response, dump_template, load_template, TEMPLATE_FILES, covert_camel_to_snake, prompt_overwrite, get_token, ClientSettings
 from typing import Optional
-from pipes.client import DatasetClient
+from p.client import DatasetClient
 
 
 SYSTEM_TYPES = ["ESIFRepoAPI", "AmazonS3", "HPCStorage", "DataFoundry"]

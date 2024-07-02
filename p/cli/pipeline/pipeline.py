@@ -1,6 +1,6 @@
 import click
 
-from pipes_cmd.utils.response import print_response
+from p.utils import print_response
 
 
 @click.group()

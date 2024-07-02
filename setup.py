@@ -26,7 +26,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'pipes=pipes.cli:main',
+            'p=p.cli:main',
         ],
     },
 )
