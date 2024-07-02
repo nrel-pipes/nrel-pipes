@@ -3,14 +3,14 @@ import sys
 import toml
 from pprint import pprint
 import click
-from pipes_cmd.utils.cli import prompt_overwrite
-from pipes_cmd.utils.response import print_response
-from pipes_cmd.utils.template import dump_template, load_template, TEMPLATE_FILES, covert_camel_to_snake
-from pipes_sdk import PipesClient
-from pipes_cmd.utils.client import CLIENT
+from pipes.utils import print_response, dump_template, load_template, TEMPLATE_FILES, covert_camel_to_snake, prompt_overwrite, get_token, ClientSettings
+from typing import Optional
+from pipes.client import DatasetClient
+
 
 SYSTEM_TYPES = ["ESIFRepoAPI", "AmazonS3", "HPCStorage", "DataFoundry"]
-
+settings = ClientSettings()
+CLIENT = DatasetClient(url=settings.get_server(), token=get_token())
 
 dataset = {
     "name": "s5",

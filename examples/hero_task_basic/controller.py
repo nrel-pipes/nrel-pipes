@@ -10,7 +10,7 @@ pipes = Pipes()
 
 def get_modelrun_task():
     # Implement logic to pull modelrun
-    modelrun = pipes.get_modelrun()
+    modelrun = p.get_modelrun()
     return modelrun
 
 

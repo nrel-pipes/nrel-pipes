@@ -48,6 +48,3 @@ def token_valid(token):
         print("Invalid token")
         return True
 
-
-if __name__=="__main__":
-    print(get_cognito_access_token(os.environ.get("USERNAME"), os.environ.get("PASSWORD")))

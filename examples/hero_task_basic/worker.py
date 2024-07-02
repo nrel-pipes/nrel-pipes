@@ -11,7 +11,7 @@ def execute_modelrun(hero, task):
     time.sleep(1)
     hero.update_task(task, {"results": "complete", "modelrun": modelrun_name})
 
-    pipes.update_task(task, {"results": "complete", "modelrun": modelrun_name})
+    p.update_task(task, {"results": "complete", "modelrun": modelrun_name})
 
 
 if __name__ == "__main__":
