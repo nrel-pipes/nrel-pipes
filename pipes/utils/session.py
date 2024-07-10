@@ -127,7 +127,7 @@ def get_or_create_pipes_session():
     manager = FileBasedSessionManager()
     settings = ClientSettings()
     file = os.path.join(manager.base_directory, 'session')
-    
+
     if not os.path.isfile(file):
         session = Session()
         session.save()
@@ -138,4 +138,4 @@ def get_or_create_pipes_session():
 def get_token():
 
     session = get_or_create_pipes_session()
-    return session.data["token"]
+    return session.data.get("token", None)

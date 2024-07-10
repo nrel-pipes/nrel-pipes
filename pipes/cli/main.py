@@ -22,5 +22,6 @@ main.add_command(pipeline)
 main.add_command(model)
 main.add_command(service)
 
+
 if __name__ == "__main__":
     main()

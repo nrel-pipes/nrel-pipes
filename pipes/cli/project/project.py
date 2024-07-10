@@ -4,12 +4,12 @@ import sys
 import click
 import requests
 import json
-from p.utils import (
-    get_token, get_or_create_pipes_session, prompt_overwrite, 
+from pipes.utils import (
+    get_token, get_or_create_pipes_session, prompt_overwrite,
     get_selected_user_context_from_session, print_response,
     copy_template, load_template, ClientSettings
 )
-from p.client import ProjectClient
+from pipes.client import ProjectClient
 
 
 
@@ -21,7 +21,7 @@ CLIENT = ProjectClient(url=settings.get_server(), token=TOKEN)
 def project(args=None):
     """project operation commands"""
 
-        
+
 @project.command()
 @click.option(
     "-o", "--output",
@@ -158,7 +158,7 @@ def get_project(project_name):
     type=click.Path(exists=True),
     required=True,
     help="The project template path"
-) 
+)
 def update_project(project_name, template_file):
     """Update project or project run metadata."""
     if project_name:

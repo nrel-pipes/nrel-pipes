@@ -1,19 +1,19 @@
 from typing import Optional
 from .base import PipesClientBase
-from p.utils import get_cognito_access_token
+from pipes.utils import get_cognito_access_token
 
 class DatasetClient(PipesClientBase):
     def __init__(
-            self, 
+            self,
             url: Optional[str] = None,
-            username: Optional[str] = None, 
-            password: Optional[str] = None, 
+            username: Optional[str] = None,
+            password: Optional[str] = None,
             token: Optional[str] = None,
             project: Optional[str] = None,
-            projectrun: Optional[str] = None, 
-            model: Optional[str] = None, 
-            modelrun: Optional[str] = None, 
-            datasets: Optional[str] = None, 
+            projectrun: Optional[str] = None,
+            model: Optional[str] = None,
+            modelrun: Optional[str] = None,
+            datasets: Optional[str] = None,
             teams: Optional[str] = None
             ):
         """

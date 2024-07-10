@@ -1,6 +1,6 @@
 import click
 import questionary
-from p.utils import get_or_create_pipes_session, ClientSettings, print_response
+from pipes.utils import get_or_create_pipes_session, ClientSettings, print_response
 
 MAX_PROMPT = 3
 
@@ -13,7 +13,7 @@ def config():
 @config.command()
 def server():
     """Config credentials for CLI client"""
-    
+
     data = {}
     selected = questionary.select(
         "Choose the PIPES server:",
@@ -25,7 +25,7 @@ def server():
     ).ask()
     pipes_server = selected.split("] ")[1]
     data["pipes_server"] = pipes_server
-    
+
     settings = ClientSettings(**data)
     settings.save()
 
@@ -35,7 +35,7 @@ def show():
     """Gets session details and server endpoint"""
     session = get_or_create_pipes_session()
     settings = ClientSettings()
-    
+
     # Collecting session data
     session_data = {
         "User Email": session.data["email"],

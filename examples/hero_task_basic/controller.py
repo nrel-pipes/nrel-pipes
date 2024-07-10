@@ -2,7 +2,7 @@ import random
 import pandas as pd
 
 from hero import Hero
-from p.sdk.core import Pipes
+from pipes.sdk.core import Pipes
 
 random.seed(0)
 

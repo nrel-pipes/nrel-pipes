@@ -3,9 +3,9 @@ import sys
 import toml
 from pprint import pprint
 import click
-from p.utils import print_response, dump_template, load_template, TEMPLATE_FILES, covert_camel_to_snake, prompt_overwrite, get_token, ClientSettings
+from pipes.utils import print_response, dump_template, load_template, TEMPLATE_FILES, covert_camel_to_snake, prompt_overwrite, get_token, ClientSettings
 from typing import Optional
-from p.client import DatasetClient
+from pipes.client import DatasetClient
 
 
 SYSTEM_TYPES = ["ESIFRepoAPI", "AmazonS3", "HPCStorage", "DataFoundry"]
@@ -229,7 +229,7 @@ def get_dataset_owner(project_name, project_run_name, model_name, model_run_name
         for dataset in datasets:
             if dataset["name"] == dataset_name:
                 print_response(f"The owner of this dataset is {dataset["registration_author"]}")
-                return 
+                return
         print_response(f"Dataset {dataset_name} not found")
     else:
         print_response(f"Encountered error: {response}")
@@ -244,7 +244,7 @@ def get_dataset_owner(project_name, project_run_name, model_name, model_run_name
 )
 @click.option(
     "-r", "--project-run-name",
-    
+
     type=click.STRING,
     required=False,
     help="The project run name"
@@ -275,7 +275,7 @@ def get_dataset_location(project_name, project_run_name, model_name, model_run_n
         for dataset in datasets:
             if dataset["name"] == dataset_name:
                 print_response(f"The location of this dataset is {dataset["location"]}")
-                return 
+                return
         print_response(f"Dataset {dataset_name} not found")
     else:
         print_response(f"Encountered error: {response}")

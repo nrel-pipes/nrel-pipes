@@ -8,12 +8,12 @@ def read_requirements():
 
 
 setup(
-    name="p",
+    name="nrel-pipes",
     description="A Python package for NREL PIPES developers",
     version=__version__,
     author="NREL",
-    author_email="janisl.gutjrekl.gov, jordan.eisenman@nrel.gov",
-    packages=find_namespace_packages(include=["p", "p.*"]),
+    author_email="janisl.gu@nrel.gov, jordan.eisenman@nrel.gov",
+    packages=find_namespace_packages(include=["pipes", "pipes.*", "wrapper", "wrapper.*"]),
     python_requires=">=3.8.0",
     url="https://github.com/nrel-pipes/nrel-pipes",
     install_requires=read_requirements(),
@@ -26,7 +26,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'p=p.cli:main',
+            'pipes=wrapper:main',
         ],
     },
 )
