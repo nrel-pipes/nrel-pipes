@@ -1,0 +1,212 @@
+################## project data ####################
+[project]
+  name        = ""  # a one-word shortname for project
+  full_name   = ""  # project title or long name
+  description = ""  # project description
+  assumptions = """
+    This can be multi-line and as long as you want.
+    You can also put links here.
+    This can also be a list of strings if you really want.
+  """
+  scheduled_start = ""  # A date in format 'yyyy-mm-dd'
+  scheduled_end   = ""  # A date in format 'yyyy-mm-dd'
+  sensitivities   = []  # A list of sensivities in string
+
+  [[project.milestones]]
+    name           = "Milestone 1"
+    description    = "First test project milestone"
+    milestone_date = "2022-11-01"  # A date in format 'yyyy-mm-dd'
+
+  [project.owner]
+    first_name = ""
+    last_name  = ""
+    email      = ""
+    username   = ""
+
+  [project.requirements] # Default requirements to be used unless otherwise specified at a project run level or for individual models
+  weather_years     = []
+  model_years       = []
+  geographic_extent = ""
+
+
+################## scenario data ####################
+
+  [[project.scenarios]]
+    name        = ""  # A short name for scenario e.g. demand_high
+    description = ""  # project scenario description
+
+  #---------------------------------------------------------------------
+  # create more project scenarios or remove the following empty section.
+  #---------------------------------------------------------------------
+  [[project.scenarios]]  # This is how you add more scenarios, remove this if no more scenarios
+    name        = ""
+    description = ""
+
+
+################## pipeline data ####################
+  [[project_runs]]
+    name            = ""  # a short name for this project run, e.g. "1"
+    description     = ""
+    scenarios       = []  # list of scenarios from project that will be tackled in this project run
+    scheduled_start = ""  # A date in format 'yyyy-mm-dd'
+    scheduled_end   = ""  # A date in format 'yyyy-mm-dd'
+
+    [project_runs.requirements] # run specific requirements, delete data below if no project run specific requirements
+      # items set here become the new requirement for all datasets in this run, other values allowed but at minimum must have the values that are listed here
+      # model_years = [2020]  # example requirement
+
+  #--------------------------------
+  # project run model configuration
+  #--------------------------------
+  [[project_runs.models]]
+    model              = ""
+    type               = "" # This is used in pipeline as header to represent the category of model
+    description        = ""
+    assumptions        = [""]  # A list of assumptions in string
+    expected_scenarios = [""] # scenarios we're expecting the model to checkin datasets under
+    scheduled_start    = ""  # A date in format 'yyyy-mm-dd'
+    scheduled_end      = ""  # A date in format 'yyyy-mm-dd'
+    [[project_runs.models.scenario_mappings]] # need to check that either all project scenarios are accounted for or that all project_run scenarios are accounted for if models.scenario_mappings are provided
+      model_scenario     = ""
+      project_scenarios  = [""] # one model scenario can map to multiple project scenarios.
+      description        = ""   # description about the mappings
+
+    [project_runs.models.requirements]  # model specific requirement that applies to this run
+      # geographic_extent  = ""   # example requirement
+
+  #------------------------------------------------------------------------
+  # Configure more project run model, or remove the following model config
+  #------------------------------------------------------------------------
+  [[project_runs.models]]   # Repeat or remove this section for configuring project run models
+    model              = ""
+    type               = "" # This is used in pipeline as header to represent the category of model
+    description        = ""
+    assumptions        = [""]  # A list of assumptions in string
+    expected_scenarios = [""] # scenarios we're expecting the model to checkin datasets under
+    scheduled_start    = ""  # A date in format 'yyyy-mm-dd'
+    scheduled_end      = ""  # A date in format 'yyyy-mm-dd'
+
+    [[project_runs.models.scenario_mappings]] # need to check that either all project scenarios are accounted for or that all project_run scenarios are accounted for if models.scenario_mappings are provided
+      model_scenario     = ""
+      project_scenarios  = [""] # one model scenario can map to multiple project scenarios.
+      description        = ""   # description about the mappings
+
+    [project_runs.models.requirements]  # model specific requirement that applies to this run
+      # geographic_extent  = ""   # example requirement
+
+
+  [[project_runs.topology]]  # Optional if only one model in project run
+    from_model = ""
+    to_model   = ""
+
+    [[project_runs.topology.handoffs]]
+      id              = ""
+      description     = ""
+      scheduled_start = ""  # A date in format 'yyyy-mm-dd'
+      scheduled_end   = ""  # *required*  A date in format 'yyyy-mm-dd'
+      notes = ""
+
+    [[project_runs.topology.handoffs]]
+      id              = ""
+      description     = ""
+      scheduled_start = ""  # A date in format 'yyyy-mm-dd'
+      scheduled_end   = ""  # *required*  A date in format 'yyyy-mm-dd'
+      notes = ""
+
+  # -------------------------------------------------------------------------
+  # Create more project run below, or remove the following empty project run.
+  # -------------------------------------------------------------------------
+  [[project_runs]]
+    name            = ""  # a short name for this project run, e.g. "1"
+    description     = ""
+    scenarios       = []  # list of scenarios from project that will be tackled in this project run
+    scheduled_start = ""  # A date in format 'yyyy-mm-dd'
+    scheduled_end   = ""  # A date in format 'yyyy-mm-dd'
+
+
+  [project_runs.requirements] # run specific requirements, delete data below if no project run specific requirements
+    # items set here become the new requirement for all datasets in this run, other values allowed but at minimum must have the values that are listed here
+    # model_years = [2020]  # example requirement
+
+
+  [[project_runs.models]]
+    model              = ""
+    type               = "" # This is used in pipeline as header to represent the category of model
+    description        = ""
+    assumptions        = [""]  # A list of assumptions in string
+    expected_scenarios = [""] # scenarios we're expecting the model to checkin datasets under
+    scheduled_start    = ""  # A date in format 'yyyy-mm-dd'
+    scheduled_end      = ""  # A date in format 'yyyy-mm-dd'
+
+    [[project_runs.models.scenario_mappings]] # need to check that either all project scenarios are accounted for or that all project_run scenarios are accounted for if models.scenario_mappings are provided
+      model_scenario     = ""
+      project_scenarios  = [""] # one model scenario can map to multiple project scenarios.
+      description        = ""   # description about the mappings
+
+    [project_runs.models.requirements]  # model specific requirement that applies to this run
+    # geographic_extent  = ""   # example requirement
+
+
+  [[project_runs.models]]   # Repeat or remove this section for configuring project run models
+    model              = ""
+    type               = "" # This is used in pipeline as header to represent the category of model
+    description        = ""
+    assumptions        = [""]  # A list of assumptions in string
+    expected_scenarios = [""] # scenarios we're expecting the model to checkin datasets under
+    scheduled_start    = ""  # A date in format 'yyyy-mm-dd'
+    scheduled_end      = ""  # A date in format 'yyyy-mm-dd'
+
+    [[project_runs.models.scenario_mappings]] # need to check that either all project scenarios are accounted for or that all project_run scenarios are accounted for if models.scenario_mappings are provided
+      model_scenario     = ""
+      project_scenarios  = [""] # one model scenario can map to multiple project scenarios.
+      description        = ""   # description about the mappings
+
+    [project_runs.models.requirements]  # model specific requirement that applies to this run
+      # geographic_extent  = ""   # example requirement
+
+  [[project_runs.topology]]  # Optional if only one model in project run
+    from_model = ""
+    to_model = ""
+
+    [[project_runs.topology.handoffs]]
+      id              = ""
+      description     = ""
+      scheduled_start = ""  # A date in format 'yyyy-mm-dd'
+      scheduled_end   = ""  # *required*  A date in format 'yyyy-mm-dd'
+      notes = ""
+
+    [[project_runs.topology.handoffs]]
+      id              = ""
+      description     = ""
+      scheduled_start = ""  # A date in format 'yyyy-mm-dd'
+      scheduled_end   = ""  # *required*  A date in format 'yyyy-mm-dd'
+      notes = ""
+
+
+##################### modeling teams #####################
+[[model_teams]]
+  name = ""
+
+  [[model_teams.members]]
+    first_name = ""
+    last_name  = ""
+    email      = ""
+    username   = ""
+
+  [[model_teams.members]]  # If no more team member, remove this section under this team.
+    first_name = ""
+    last_name  = ""
+    email      = ""
+    username   = ""
+
+# ----------------------------------------------------------------
+# Create more modeling team, or remove the following empty section
+# -----------------------------------------------------------------
+[[model_teams]]  # If no more modeling teams, remove this section.
+  name = ""
+
+  [[model_teams.members]]
+    first_name = ""
+    last_name  = ""
+    email      = ""
+    username   = ""
