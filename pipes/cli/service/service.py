@@ -14,7 +14,6 @@ load_dotenv()
 
 settings = ClientSettings()
 TOKEN = get_token()
-CLIENT = PipesClientBase(url=settings.get_server(), token=TOKEN)
 
 MAX_PROMPT = 3
 cognito_idp = boto3.client("cognito-idp", region_name="us-west-2")
@@ -56,7 +55,8 @@ def service(args=None):
 @service.command()
 def ping():
     """PIPES server health check"""
-    response = CLIENT.check_connection()
+    client = PipesClientBase(url=settings.get_server(), token=TOKEN)
+    response = client.check_connection()
     print_response(response.json())
 
 
@@ -102,6 +102,7 @@ def login():
         print_response(response)
         sys.exit(1)
     session = get_or_create_pipes_session()
+    email = data.get("email")
     password = data.pop("password")
     try:
         token = get_cognito_access_token(email, password)
@@ -148,14 +149,6 @@ def prompt_for_session():
     session.update(run_info)
     session.save()
 
-def display_session():
-    click.clear()
-    selected_context = client.get_user_session_context()
-    if selected_context['code'] == 'OK':
-        selected = selected_context['data']
-
-    click.secho(f"Current Session:  Project: {selected['project']['data']['name']}, Project Run: {selected['project_run']['data']['name']}", fg='blue')
-    click.secho("Do this thing to switch your sessions project run.")
 
 
 @service.command()
@@ -188,8 +181,8 @@ def add_user(first_name, last_name, email, organization):
         "last_name": last_name,
         "organization": organization
     }
-
-    response = CLIENT.post_user(**data)
+    client = PipesClientBase(url=settings.get_server(), token=TOKEN)
+    response = client.post_user(**data)
     if response.status_code == 201:
         print_response("User added successfully added.")
     else:
@@ -205,7 +198,8 @@ def add_user(first_name, last_name, email, organization):
 @service.command()
 def list_modeling_teams(project):
     """List the modeling teams in PIPES"""
-    response = CLIENT.get_teams(project)
+    client = PipesClientBase(url=settings.get_server(), token=TOKEN)
+    response = client.get_teams(project)
     if response.status_code == 200:
         print_response(response.json())
     else:

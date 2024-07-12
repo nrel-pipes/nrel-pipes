@@ -15,7 +15,6 @@ from pipes.client import ProjectClient
 
 settings = ClientSettings()
 TOKEN = get_token()
-CLIENT = ProjectClient(url=settings.get_server(), token=TOKEN)
 
 @click.group()
 def project(args=None):
@@ -128,7 +127,8 @@ def create_project(template_file):
         project = toml.load(template)
     settings = ClientSettings()
     session = get_or_create_pipes_session()
-    create_project_response = CLIENT.post_project(project)
+    client = ProjectClient(url=settings.get_server(), token=TOKEN)
+    create_project_response = client.post_project(project)
 
 
 @project.command()
@@ -140,7 +140,8 @@ def create_project(template_file):
 )
 def get_project(project_name):
     """Get project metadata"""
-    response = CLIENT.get_project(project_name)
+    client = ProjectClient(url=settings.get_server(), token=TOKEN)
+    response = client.get_project(project_name)
     if response.status_code == 200:
         print_response(response.json())
     else:
@@ -169,8 +170,8 @@ def update_project(project_name, template_file):
         print("Use info from session: ", json.dumps(context_data))
 
     template_data = load_template(template_file)
-
-    response = CLIENT.update_project(context_data, template_data)
+    client = ProjectClient(url=settings.get_server(), token=TOKEN)
+    response = client.update_project(context_data, template_data)
     print_response(response)
 
 
@@ -189,7 +190,8 @@ def update_project(project_name, template_file):
 )
 def create_project_run(project_name, template_file):
     """Create a new project run in an existing project."""
-    response = CLIENT.post_projectrun(template_file, project_name)
+    client = ProjectClient(url=settings.get_server(), token=TOKEN)
+    response = client.post_projectrun(template_file, project_name)
     if response.status_code == 201:
         print(f"Project run successfully created for {project_name}")
     else:
@@ -204,7 +206,8 @@ def create_project_run(project_name, template_file):
 )
 def get_project_owner(project_name):
     """Get the owner of given project"""
-    response = CLIENT.get_project(project_name)
+    client = ProjectClient(url=settings.get_server(), token=TOKEN)
+    response = client.get_project(project_name)
     if response.status_code == 200:
         print_response(response.json()["owner"])
     else:
@@ -238,6 +241,6 @@ def check_project_run_progress(project_name, project_run_name):
             "project_run_name": selected["project_run"]["data"]["name"]
         }
         print("Use info from session: ", json.dumps(project_run_context))
-
-    response = CLIENT.check_project_run_progress(project_run_context)
+    client = ProjectClient(url=settings.get_server(), token=TOKEN)
+    response = client.check_project_run_progress(project_run_context)
     print_response(response)

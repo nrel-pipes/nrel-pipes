@@ -30,8 +30,15 @@ class PipesClientBase(ABC):
         if token:
             self.token = token
         else:
-            self.token = get_cognito_access_token(username, password)
-        self.url = url
+            if isinstance(username, str) and isinstance(password, str):
+                self.token = get_cognito_access_token(username, password)
+            else:
+                print("Please run command `pipes login` and provide credentials")
+        if isinstance(url):
+            self.url = url
+        else:
+            print("Please run command `pipes config server` and select desired server")
+
         self.project = project
         self.projectrun = projectrun
         self.model = model

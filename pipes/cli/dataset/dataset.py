@@ -10,7 +10,6 @@ from pipes.client import DatasetClient
 
 SYSTEM_TYPES = ["ESIFRepoAPI", "AmazonS3", "HPCStorage", "DataFoundry"]
 settings = ClientSettings()
-CLIENT = DatasetClient(url=settings.get_server(), token=get_token())
 
 dataset = {
     "name": "s5",
@@ -85,7 +84,8 @@ def dataset(args=None):
 )
 def list_datasets(project_name, project_run_name, model_name, model_run_name):
     """List all datasets under a model run"""
-    response = CLIENT.get_datasets(project_name, project_run_name, model_name, model_run_name)
+    client = DatasetClient(url=settings.get_server(), token=get_token())
+    response = client.get_datasets(project_name, project_run_name, model_name, model_run_name)
     if response.status_code == 200:
         print_response(response.json())
     else:
@@ -183,7 +183,8 @@ def get_checkin_template(system, output):
 )
 def checkin_dataset(project_name, project_run_name, model_name, model_run_name, template_file, metadata_validation, adhoc):
     """Check-in project dataset"""
-    response = CLIENT.checkin_dataset(template_file, project_name, project_run_name, model_name, model_run_name, adhoc)
+    client = DatasetClient(url=settings.get_server(), token=get_token())
+    response = client.checkin_dataset(template_file, project_name, project_run_name, model_name, model_run_name, adhoc)
     if response.status_code == 201:
         print_response("Dataset successfully checked in.")
     else:
@@ -223,7 +224,8 @@ def checkin_dataset(project_name, project_run_name, model_name, model_run_name, 
 )
 def get_dataset_owner(project_name, project_run_name, model_name, model_run_name, dataset_name):
     """Get dataset owner"""
-    response = CLIENT.get_datasets(project_name, project_run_name, model_name, model_run_name)
+    client = DatasetClient(url=settings.get_server(), token=get_token())
+    response = client.get_datasets(project_name, project_run_name, model_name, model_run_name)
     if response.status_code == 200:
         datasets = response.json()
         for dataset in datasets:
@@ -269,7 +271,8 @@ def get_dataset_owner(project_name, project_run_name, model_name, model_run_name
 )
 def get_dataset_location(project_name, project_run_name, model_name, model_run_name, dataset_name):
     """Get dataset location"""
-    response = CLIENT.get_datasets(project_name, project_run_name, model_name, model_run_name)
+    client = DatasetClient(url=settings.get_server(), token=get_token())
+    response = client.get_datasets(project_name, project_run_name, model_name, model_run_name)
     if response.status_code == 200:
         datasets = response.json()
         for dataset in datasets:

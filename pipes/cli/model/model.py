@@ -8,7 +8,6 @@ from pipes.client import ModelClient
 
 settings = ClientSettings()
 TOKEN = get_token()
-CLIENT = ModelClient(url=settings.get_server(), token=TOKEN)
 
 @click.group()
 def model(args=None):
@@ -68,7 +67,8 @@ def create_model(template_file, project_name, project_run_name):
 )
 def list_models(project_name, project_run_name):
     """List all models under a project run"""
-    response = CLIENT.get_models(project_name, project_run_name)
+    client = ModelClient(url=settings.get_server(), token=TOKEN)
+    response = client.get_models(project_name, project_run_name)
     if response.status_code == 200:
         print_response(response.json())
     else:
@@ -102,7 +102,8 @@ def list_models(project_name, project_run_name):
 )
 def create_model_run(project_name, project_run_name, model_name, template_file):
     """Create model run under given model"""
-    response = CLIENT.post_modelrun(template_file, project_name, project_run_name, model_name)
+    client = ModelClient(url=settings.get_server(), token=TOKEN)  
+    response = client.post_modelrun(template_file, project_name, project_run_name, model_name)
     if response.status_code == 201:
         print_response(f"Model run has successfully posted.")
     else:
@@ -154,13 +155,14 @@ def get_model_run_template(project_name, project_run_name, model_name, output):
 
     project_name = context_data["project_name"]
     project_run_name = context_data["project_run_name"]
+    client = ModelClient(url=settings.get_server(), token=TOKEN)
 
-    response = CLIENT.get_model_run_template_data(project_name, project_run_name, model_name)
+    response = client.get_model_run_template_data(project_name, project_run_name, model_name)
     data = response.get("handoff_data", {"handoffs": {}})
     if not data["handoffs"]:
         print("Warning: model run template does not contain handoffs")
 
-    CLIENT.generate_model_run_template(data, output)
+    client.generate_model_run_template(data, output)
 
 
 @model.command()
@@ -207,8 +209,9 @@ def check_model_run_progress(project_name, project_run_name, model_name, model_r
         "model_name": model_name,
         "model_run_name": model_run_name,
     })
+    client = ModelClient(url=settings.get_server(), token=TOKEN)
 
-    response = CLIENT.check_model_run_progress(context_data)
+    response = client.check_model_run_progress(context_data)
     print_response(response)
 
 
@@ -256,8 +259,8 @@ def close_model_run(project_name, project_run_name, model_name, model_run_name):
         "model_name": model_name,
         "model_run_name": model_run_name,
     })
-
-    response = CLIENT.close_model_run(context_data)
+    client = ModelClient(url=settings.get_server(), token=TOKEN)
+    response = client.close_model_run(context_data)
     print_response(response)
 
 
@@ -287,6 +290,6 @@ def check_model_progress(project_name, project_run_name, model_name):
         "project_run_name": project_run_name,
         "model_name": model_name
     }
-
-    response = CLIENT.check_model_progress(model_context)
+    client = ModelClient(url=settings.get_server(), token=TOKEN)
+    response = client.check_model_progress(model_context)
     print_response(response)
