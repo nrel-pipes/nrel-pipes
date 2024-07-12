@@ -150,7 +150,6 @@ def prompt_for_session():
     session.save()
 
 
-
 @service.command()
 @click.option(
     "-f", "--first-name",
