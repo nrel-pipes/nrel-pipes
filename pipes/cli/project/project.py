@@ -10,10 +10,9 @@ from pipes.utils import (
     copy_template, load_template, ClientSettings
 )
 from pipes.client import ProjectClient
+from pipes.cli.login import login
+from pipes.cli.config import server
 
-
-
-settings = ClientSettings()
 TOKEN = get_token()
 
 @click.group()
@@ -57,6 +56,7 @@ def get_init_template(output):
     help="The project template path"
 )
 def create_team(template_file, project):
+    token = get_token()
     with open(template_file, "r") as template:
         team = toml.load(template)
     settings = ClientSettings()
@@ -64,7 +64,7 @@ def create_team(template_file, project):
         url = f"{settings.pipes_server}api/teams/?project={project}",
         json = team,
         headers = {
-            "Authorization": f"Bearer {TOKEN}",
+            "Authorization": f"Bearer {token}",
         }
     )
     # response = pipes.create_team(team)
@@ -121,13 +121,16 @@ def put_team_on_project(project, template_file=None, team=None):
     required=True,
     help="The project template path"
 )
-def create_project(template_file):
+@click.pass_context
+def create_project(ctx, template_file):
     """Create project based on given template"""
+    token = get_token()
     with open(template_file, "r") as template:
         project = toml.load(template)
     settings = ClientSettings()
     session = get_or_create_pipes_session()
-    client = ProjectClient(url=settings.get_server(), token=TOKEN)
+    client = ProjectClient(url=settings.get_server(), token=token)
+    client.validate(ctx)
     create_project_response = client.post_project(project)
 
 
@@ -138,10 +141,15 @@ def create_project(template_file):
     required=False,
     help="Name of project"
 )
-def get_project(project_name):
+@click.pass_context
+def get_project(ctx, project_name):
     """Get project metadata"""
-    client = ProjectClient(url=settings.get_server(), token=TOKEN)
+    settings = ClientSettings()
+    token = get_token()
+    client = ProjectClient(url=settings.get_server(), token=token)
+    client.validate(ctx)
     response = client.get_project(project_name)
+
     if response.status_code == 200:
         print_response(response.json())
     else:
@@ -160,7 +168,10 @@ def get_project(project_name):
     required=True,
     help="The project template path"
 )
-def update_project(project_name, template_file):
+@click.pass_context
+def update_project(ctx, project_name, template_file):
+    settings = ClientSettings()
+    token = get_token()
     """Update project or project run metadata."""
     if project_name:
         context_data = {"project_name": project_name}
@@ -170,7 +181,8 @@ def update_project(project_name, template_file):
         print("Use info from session: ", json.dumps(context_data))
 
     template_data = load_template(template_file)
-    client = ProjectClient(url=settings.get_server(), token=TOKEN)
+    client = ProjectClient(url=settings.get_server(), token=token)
+    client.validate(ctx)
     response = client.update_project(context_data, template_data)
     print_response(response)
 
@@ -188,9 +200,13 @@ def update_project(project_name, template_file):
     required=True,
     help="The project template path"
 )
-def create_project_run(project_name, template_file):
+@click.pass_context
+def create_project_run(ctx, project_name, template_file):
     """Create a new project run in an existing project."""
-    client = ProjectClient(url=settings.get_server(), token=TOKEN)
+    settings = ClientSettings()
+    token = get_token()
+    client = ProjectClient(url=settings.get_server(), token=token)
+    client.validate(ctx)
     response = client.post_projectrun(template_file, project_name)
     if response.status_code == 201:
         print(f"Project run successfully created for {project_name}")
@@ -204,10 +220,15 @@ def create_project_run(project_name, template_file):
     required=False,
     help="Name of project"
 )
-def get_project_owner(project_name):
+@click.pass_context
+def get_project_owner(ctx, project_name):
     """Get the owner of given project"""
-    client = ProjectClient(url=settings.get_server(), token=TOKEN)
+    settings = ClientSettings()
+    token = get_token()
+    client = ProjectClient(url=settings.get_server(), token=token)
+    client.validate(ctx)
     response = client.get_project(project_name)
+
     if response.status_code == 200:
         print_response(response.json()["owner"])
     else:
@@ -227,8 +248,11 @@ def get_project_owner(project_name):
     required=False,
     help="The project run name"
 )
-def check_project_run_progress(project_name, project_run_name):
+@click.pass_context
+def check_project_run_progress(ctx, project_name, project_run_name):
     """Check the project run progress"""
+    settings = ClientSettings()
+    token = get_token()
     if project_name and project_run_name:
         project_run_context = {
             "project_name": project_name,
@@ -241,6 +265,7 @@ def check_project_run_progress(project_name, project_run_name):
             "project_run_name": selected["project_run"]["data"]["name"]
         }
         print("Use info from session: ", json.dumps(project_run_context))
-    client = ProjectClient(url=settings.get_server(), token=TOKEN)
+    client = ProjectClient(url=settings.get_server(), token=token)
+    client.validate(ctx)
     response = client.check_project_run_progress(project_run_context)
     print_response(response)
