@@ -65,9 +65,11 @@ def create_model(template_file, project_name, project_run_name):
     required=False,
     help="The project run name"
 )
-def list_models(project_name, project_run_name):
+@click.pass_context
+def list_models(ctx, project_name, project_run_name):
     """List all models under a project run"""
     client = ModelClient(url=settings.get_server(), token=TOKEN)
+    client.validate(ctx)
     response = client.get_models(project_name, project_run_name)
     if response.status_code == 200:
         print_response(response.json())
@@ -100,9 +102,11 @@ def list_models(project_name, project_run_name):
     required=True,
     help="The model run template path"
 )
-def create_model_run(project_name, project_run_name, model_name, template_file):
+@click.pass_context
+def create_model_run(ctx, project_name, project_run_name, model_name, template_file):
     """Create model run under given model"""
     client = ModelClient(url=settings.get_server(), token=TOKEN)  
+    client.validate(ctx)
     response = client.post_modelrun(template_file, project_name, project_run_name, model_name)
     if response.status_code == 201:
         print_response(f"Model run has successfully posted.")
@@ -138,7 +142,8 @@ def create_model_run(project_name, project_run_name, model_name, template_file):
     is_eager=True,
     callback=prompt_overwrite
 )
-def get_model_run_template(project_name, project_run_name, model_name, output):
+@click.pass_context
+def get_model_run_template(ctx, project_name, project_run_name, model_name, output):
     """Get model run template for input model"""
     if project_name and project_run_name:
         context_data = {
@@ -156,7 +161,7 @@ def get_model_run_template(project_name, project_run_name, model_name, output):
     project_name = context_data["project_name"]
     project_run_name = context_data["project_run_name"]
     client = ModelClient(url=settings.get_server(), token=TOKEN)
-
+    client.validate(ctx)
     response = client.get_model_run_template_data(project_name, project_run_name, model_name)
     data = response.get("handoff_data", {"handoffs": {}})
     if not data["handoffs"]:
@@ -190,8 +195,9 @@ def get_model_run_template(project_name, project_run_name, model_name, output):
     required=True,
     help="The model run name"
 )
-def check_model_run_progress(project_name, project_run_name, model_name, model_run_name):
-    """Check the model run progress"""
+@click.pass_context
+def check_model_run_progress(ctx, project_name, project_run_name, model_name, model_run_name):
+    """Check the model run prcogress"""
     if project_name and project_run_name:
         context_data = {
             "project_name": project_name,
@@ -210,7 +216,7 @@ def check_model_run_progress(project_name, project_run_name, model_name, model_r
         "model_run_name": model_run_name,
     })
     client = ModelClient(url=settings.get_server(), token=TOKEN)
-
+    client.validate(ctx)
     response = client.check_model_run_progress(context_data)
     print_response(response)
 
@@ -240,7 +246,8 @@ def check_model_run_progress(project_name, project_run_name, model_name, model_r
     required=True,
     help="The model run name"
 )
-def close_model_run(project_name, project_run_name, model_name, model_run_name):
+@click.pass_context
+def close_model_run(ctx, project_name, project_run_name, model_name, model_run_name):
     """Close specified model run"""
     if project_name and project_run_name:
         context_data = {
@@ -260,6 +267,7 @@ def close_model_run(project_name, project_run_name, model_name, model_run_name):
         "model_run_name": model_run_name,
     })
     client = ModelClient(url=settings.get_server(), token=TOKEN)
+    client.validate(ctx)
     response = client.close_model_run(context_data)
     print_response(response)
 
@@ -283,7 +291,8 @@ def close_model_run(project_name, project_run_name, model_name, model_run_name):
     required=True,
     help="The model name"
 )
-def check_model_progress(project_name, project_run_name, model_name):
+@click.pass_context
+def check_model_progress(ctx, project_name, project_run_name, model_name):
     """Check the model progress"""
     model_context = {
         "project_name": project_name,
@@ -291,5 +300,6 @@ def check_model_progress(project_name, project_run_name, model_name):
         "model_name": model_name
     }
     client = ModelClient(url=settings.get_server(), token=TOKEN)
+    client.validate(ctx)
     response = client.check_model_progress(model_context)
     print_response(response)

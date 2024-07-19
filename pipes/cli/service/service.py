@@ -9,6 +9,7 @@ import json
 import questionary
 from pipes.utils import get_or_create_pipes_session, token_valid, get_token, print_response, ClientSettings, get_cognito_access_token, token_valid
 from pipes.client import PipesClientBase
+from utils.common import PIPES_CLIENT_ID
 load_dotenv()
 
 
@@ -41,7 +42,7 @@ def get_cognito_access_token(username, password):
             "USERNAME": username,
             "PASSWORD": password,
         },
-        ClientId=os.environ.get("PIPES_COGNITO_CLIENT_ID"),
+        ClientId=PIPES_CLIENT_ID,
     )
     access_token = response["AuthenticationResult"]["AccessToken"]
     return access_token
@@ -53,69 +54,71 @@ def service(args=None):
 
 
 @service.command()
-def ping():
+@click.pass_context
+def ping(ctx):
     """PIPES server health check"""
     client = PipesClientBase(url=settings.get_server(), token=TOKEN)
+    client.validate(ctx)
     response = client.check_connection()
     print_response(response.json())
 
 
-@click.command()
-def login():
-    """Config session for CLI client"""
-    # Change Output
-    data = {}
-    # Prompt for email
-    for _ in range(MAX_PROMPT):
-        input_value = questionary.text(
-            "Email [Required]"
-        ).ask()
-        email = validate_email_input(input_value.strip())
-        if email is None:
-            continue
-        data["email"] = email
-        break
-    if "email" not in data:
-            response = {
-                "code": "INVALID_ARGUMENT",
-                "details": "Invalid email address! Failed to config your session"
-            }
-            print_response(response)
-            sys.exit(1)
+# @click.command()
+# def login():
+#     """Config session for CLI client"""
+#     # Change Output
+#     data = {}
+#     # Prompt for email
+#     for _ in range(MAX_PROMPT):
+#         input_value = questionary.text(
+#             "Email [Required]"
+#         ).ask()
+#         email = validate_email_input(input_value.strip())
+#         if email is None:
+#             continue
+#         data["email"] = email
+#         break
+#     if "email" not in data:
+#             response = {
+#                 "code": "INVALID_ARGUMENT",
+#                 "details": "Invalid email address! Failed to config your session"
+#             }
+#             print_response(response)
+#             sys.exit(1)
 
-    # Prompt for password
-    for _ in range(MAX_PROMPT):
-        password = questionary.password(
-            "Password [Required]"
-        ).ask().strip()
-        if password:
-            data["password"] = password
-            break
-        else:
-            print("Password cannot be empty.")
-            continue
-    if "password" not in data:
-        response = {
-            "code": "INVALID_ARGUMENT",
-            "details": "Password is required! Failed to config your session"
-        }
-        print_response(response)
-        sys.exit(1)
-    session = get_or_create_pipes_session()
-    email = data.get("email")
-    password = data.pop("password")
-    try:
-        token = get_cognito_access_token(email, password)
-        data["token"] = token
-        session.update(data)
-        session.save()
-        print_response(f"Login success!")
-    except cognito_idp.exceptions.NotAuthorizedException as e:
-        token = session.data["token"]
-        if not token_valid(token):
-            print_response("Username and/or password is incorrect, and current session token is invalid")
-        else:
-            print_response("Current token is valid, but username and/or password is incorrect.")
+#     # Prompt for password
+#     for _ in range(MAX_PROMPT):
+#         password = questionary.password(
+#             "Password [Required]"
+#         ).ask().strip()
+#         if password:
+#             data["password"] = password
+#             break
+#         else:
+#             print("Password cannot be empty.")
+#             continue
+#     if "password" not in data:
+#         response = {
+#             "code": "INVALID_ARGUMENT",
+#             "details": "Password is required! Failed to config your session"
+#         }
+#         print_response(response)
+#         sys.exit(1)
+#     session = get_or_create_pipes_session()
+#     email = data.get("email")
+#     password = data.pop("password")
+#     try:
+#         token = get_cognito_access_token(email, password)
+#         data["token"] = token
+#         session.update(data)
+#         session.save()
+#         print_response(f"Login success!")
+#     except cognito_idp.exceptions.NotAuthorizedException as e:
+#         token = session.data["token"]
+#         if not token_valid(token):
+#             print_response("Username and/or password is incorrect, and current session token is invalid")
+#         else:
+#             print_response("Current token is valid, but username and/or password is incorrect.")
 
 
 def prompt_for_session():
@@ -172,7 +175,8 @@ def prompt_for_session():
     default=None,
     help="The organization name"
 )
-def add_user(first_name, last_name, email, organization):
+@click.pass_context
+def add_user(ctx, first_name, last_name, email, organization):
     """Add a new user into PIPES"""
     data = {
         "email": email,
@@ -181,6 +185,7 @@ def add_user(first_name, last_name, email, organization):
         "organization": organization
     }
     client = PipesClientBase(url=settings.get_server(), token=TOKEN)
+    client.validate(ctx)
     response = client.post_user(**data)
     if response.status_code == 201:
         print_response("User added successfully added.")
@@ -195,9 +200,11 @@ def add_user(first_name, last_name, email, organization):
     help="The project name"
 )
 @service.command()
-def list_modeling_teams(project):
+@click.pass_context
+def list_modeling_teams(ctx, project):
     """List the modeling teams in PIPES"""
     client = PipesClientBase(url=settings.get_server(), token=TOKEN)
+    client.validate(ctx)
     response = client.get_teams(project)
     if response.status_code == 200:
         print_response(response.json())

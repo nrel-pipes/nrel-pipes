@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 import boto3
 import jwt
 from time import time
-
+from utils.common import PIPES_CLIENT_ID
 
 load_dotenv()
 
@@ -26,7 +26,7 @@ def get_cognito_access_token(username, password):
             "USERNAME": username,
             "PASSWORD": password,
         },
-        ClientId=os.environ.get("PIPES_COGNITO_CLIENT_ID"),
+        ClientId=PIPES_CLIENT_ID,
     )
     access_token = response["AuthenticationResult"]["AccessToken"]
     return access_token

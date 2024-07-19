@@ -5,9 +5,14 @@ import toml
 from dotenv import load_dotenv
 import requests
 from .auth import get_cognito_access_token
+from pipes.cli.login import login
+from pipes.cli.config import server
+from .auth import token_valid
 
+from pipes.utils import (
+    get_token, ClientSettings
+)
 load_dotenv()
-
 
 class PipesClientBase(ABC):
     def __init__(
@@ -24,28 +29,40 @@ class PipesClientBase(ABC):
             teams: Optional[str] = None
             ):
         """
-        Object is to establish pipes connection with api.
+        Object is to establish pipes connection with API.
         Logic: 1) get token, 2) declares URL of the API server
         """
-        if token:
-            self.token = token
+        self.url = url if url else None
+        self.token = token if token else None
+        if not self.token and isinstance(username, str) and isinstance(password, str):
+            self.token = get_cognito_access_token(username, password)
         else:
-            if isinstance(username, str) and isinstance(password, str):
-                self.token = get_cognito_access_token(username, password)
-            else:
-                print("Please run command `pipes login` and provide credentials")
-        if isinstance(url):
-            self.url = url
-        else:
-            print("Please run command `pipes config server` and select desired server")
-
+            self.pipes_login = False
         self.project = project
         self.projectrun = projectrun
         self.model = model
         self.modelrun = modelrun
         self.datasets = datasets
         self.teams = teams
-    
+
+    def validate(self, ctx):
+        """This method validates the client ensuring that it has a valid token and URL."""
+        token = get_token()
+        if not token or not token_valid(token) or not token_valid(self.token):
+            print("You have not properly logged in or token has expired. You must now input your credentials.")
+            print(token_valid(token))
+            ctx.invoke(login)
+            self.token = get_token()
+            self.pipes_login = True
+        if self.url is None:
+            print("You have not provided a URL. You must now configure your server.")
+            ctx.invoke(server)
+            self.pipes_login = True
+            settings = ClientSettings()
+            self.url = settings.get_server()
+            print("Re-obtained pipes server")
+        return self
+
     def read_toml(self, file):
         with open(file, "r") as template:
             data = toml.load(template)

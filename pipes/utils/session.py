@@ -136,6 +136,5 @@ def get_or_create_pipes_session():
     return Session()
 
 def get_token():
-
     session = get_or_create_pipes_session()
     return session.data.get("token", None)

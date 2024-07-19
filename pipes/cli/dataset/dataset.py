@@ -6,7 +6,7 @@ import click
 from pipes.utils import print_response, dump_template, load_template, TEMPLATE_FILES, covert_camel_to_snake, prompt_overwrite, get_token, ClientSettings
 from typing import Optional
 from pipes.client import DatasetClient
-
+from pipes.cli.login import login
 
 SYSTEM_TYPES = ["ESIFRepoAPI", "AmazonS3", "HPCStorage", "DataFoundry"]
 settings = ClientSettings()
@@ -82,9 +82,11 @@ def dataset(args=None):
     required=True,
     help="The model run name"
 )
-def list_datasets(project_name, project_run_name, model_name, model_run_name):
+@click.pass_context
+def list_datasets(ctx, project_name, project_run_name, model_name, model_run_name):
     """List all datasets under a model run"""
     client = DatasetClient(url=settings.get_server(), token=get_token())
+    client.validate(ctx)
     response = client.get_datasets(project_name, project_run_name, model_name, model_run_name)
     if response.status_code == 200:
         print_response(response.json())
@@ -181,9 +183,11 @@ def get_checkin_template(system, output):
     is_flag=True,
     help="Whether to run metadata validation"
 )
-def checkin_dataset(project_name, project_run_name, model_name, model_run_name, template_file, metadata_validation, adhoc):
+@click.pass_context
+def checkin_dataset(ctx, project_name, project_run_name, model_name, model_run_name, template_file, metadata_validation, adhoc):
     """Check-in project dataset"""
     client = DatasetClient(url=settings.get_server(), token=get_token())
+    client.validate(ctx)
     response = client.checkin_dataset(template_file, project_name, project_run_name, model_name, model_run_name, adhoc)
     if response.status_code == 201:
         print_response("Dataset successfully checked in.")
@@ -222,9 +226,11 @@ def checkin_dataset(project_name, project_run_name, model_name, model_run_name, 
     required=True,
     help="The dataset name"
 )
-def get_dataset_owner(project_name, project_run_name, model_name, model_run_name, dataset_name):
+@click.pass_context
+def get_dataset_owner(ctx, project_name, project_run_name, model_name, model_run_name, dataset_name):
     """Get dataset owner"""
     client = DatasetClient(url=settings.get_server(), token=get_token())
+    client.validate(ctx)
     response = client.get_datasets(project_name, project_run_name, model_name, model_run_name)
     if response.status_code == 200:
         datasets = response.json()
@@ -269,9 +275,11 @@ def get_dataset_owner(project_name, project_run_name, model_name, model_run_name
     required=True,
     help="The dataset name"
 )
-def get_dataset_location(project_name, project_run_name, model_name, model_run_name, dataset_name):
+@click.pass_context
+def get_dataset_location(ctx, project_name, project_run_name, model_name, model_run_name, dataset_name):
     """Get dataset location"""
     client = DatasetClient(url=settings.get_server(), token=get_token())
+    client.validate(ctx)
     response = client.get_datasets(project_name, project_run_name, model_name, model_run_name)
     if response.status_code == 200:
         datasets = response.json()
