@@ -1,0 +1,37 @@
+name = "example_names_unique2" # Space with underscores.
+display_name = "Name of Dataset" # You can put spaces in the display name
+description = "This is a description of the dataset" # Describe your dataset here!
+version = "1.0" # Change the version of your dataset as you wish
+hash_value = ""
+version_status = "Active"
+previous_version = "string"
+data_format = "string"
+schema_info = ""
+weather_years = []
+model_years = []
+units = []
+scenarios = ["string"]
+sensitivities = []
+relevant_links = []
+comments = ""
+resource_url = ""
+
+[location]
+
+[registration_author]
+email = "user@example.com"
+first_name = "string"
+last_name = "string"
+organization = "string"
+
+[temporal_info]
+
+[spatial_info]
+
+[source_code]
+location = "string"
+branch = ""
+tag = ""
+image = ""
+
+[other]

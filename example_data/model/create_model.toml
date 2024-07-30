@@ -1,0 +1,12 @@
+name = "example_name10"
+display_name = "string"
+type = "string"
+description = ["string"]
+modeling_team = "dsgrid"
+assumptions = []
+requirements = {}
+scheduled_start = "2022-10-14T00:00:00Z"  # Example start date, adjust as needed but must be before October 15, 2022
+scheduled_end = "2022-10-15T00:00:00Z"
+expected_scenarios = []
+scenario_mappings = []
+other = {}
