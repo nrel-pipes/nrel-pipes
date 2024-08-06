@@ -1,6 +1,6 @@
 from setuptools import setup, find_namespace_packages
 
-__version__ = "0.0.1"
+__version__ = "0.0.2"
 
 def read_requirements():
     with open('requirements.txt') as req_file:
