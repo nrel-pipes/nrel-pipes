@@ -6,7 +6,7 @@ import boto3
 import json
 from .auth import get_pipes_token, get_hero_token, valid_cognito_token
 from .task_engine import HeroTaskEngine
-from nrel_pipes.client import TaskClient
+from ..client import TaskClient
 
 load_dotenv()
 SCOPES = ["task-engine/user"]
@@ -24,7 +24,6 @@ import boto3
 import json
 from .auth import get_pipes_token, get_hero_token, valid_cognito_token
 from .task_engine import HeroTaskEngine
-from nrel_pipes.client import TaskClient
 
 load_dotenv()
 SCOPES = ["task-engine/user"]
