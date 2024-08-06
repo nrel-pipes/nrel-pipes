@@ -11,7 +11,7 @@ try:
     sys.modules['pipes'] = pipes
     spec.loader.exec_module(pipes)
 
-    from pipes.cli import main
+    from p.cli import main
     main.main()
 
 except ModuleNotFoundError:

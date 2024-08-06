@@ -4,14 +4,14 @@ import sys
 import click
 import requests
 import json
-from pipes.utils import (
+from p.utils import (
     get_token, get_or_create_pipes_session, prompt_overwrite,
     get_selected_user_context_from_session, print_response,
     copy_template, load_template, ClientSettings
 )
-from pipes.client import ProjectClient
-from pipes.cli.login import login
-from pipes.cli.config import server
+from p.client import ProjectClient
+from p.cli.login import login
+from p.cli.config import server
 
 TOKEN = get_token()
 
