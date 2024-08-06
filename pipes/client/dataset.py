@@ -61,7 +61,3 @@ class DatasetClient(PipesClientBase):
         else:
             queries = {"project": project, "projectrun": projectrun, "model": model, "modelrun": modelrun}
         return self.post_toml(file, "api/datasets", **queries)
-
-if __name__=="__main__":
-    username = os.environ.get("USERNAME")
-    password = os.environ.get("PASSWORD")

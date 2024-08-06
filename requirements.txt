@@ -12,3 +12,4 @@ requests==2.31.0
 toml==0.10.2
 pydantic-settings==2.2.1
 pyjwt==2.8.0
+tenacity==9.0.0
