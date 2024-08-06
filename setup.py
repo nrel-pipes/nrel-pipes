@@ -27,6 +27,7 @@ setup(
     entry_points={
         'console_scripts': [
             'pipes=wrapper:main',
+            'pipes-sdk=pipes_sdk:main',
         ],
     },
 )
