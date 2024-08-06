@@ -1,6 +1,6 @@
 from setuptools import setup, find_namespace_packages
 
-__version__ = "0.0.2"
+__version__ = "0.0.1"
 
 def read_requirements():
     with open('requirements.txt') as req_file:
@@ -12,7 +12,7 @@ setup(
     version=__version__,
     author="NREL",
     author_email="janisl.gu@nrel.gov, jordan.eisenman@nrel.gov",
-    packages=find_namespace_packages(include=["pipes.sdk", "pipes.sdk.*"]),
+    packages=find_namespace_packages(include=["pipes_sdk", "pipes_sdk.*"]),
     python_requires=">=3.8.0",
     url="https://github.com/nrel-pipes/nrel-pipes",
     install_requires=read_requirements(),
@@ -25,7 +25,8 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'psdk=pipes.sdk:main',  # Entry point for the SDK
+            'pipes=wrapper:main',
+            'pipes-sdk=pipes_sdk:main',  # New entry point for the SDK
         ],
     },
 )
