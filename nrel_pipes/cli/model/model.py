@@ -2,8 +2,8 @@ import json
 import click
 import requests
 import toml
-from pipes.utils import prompt_overwrite, get_selected_user_context_from_session, print_response, load_template, ClientSettings, get_or_create_pipes_session, get_token
-from pipes.client import ModelClient
+from nrel_pipes.utils import prompt_overwrite, get_selected_user_context_from_session, print_response, load_template, ClientSettings, get_or_create_pipes_session, get_token
+from nrel_pipes.client import ModelClient
 
 
 settings = ClientSettings()

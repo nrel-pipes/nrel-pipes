@@ -1,6 +1,6 @@
 from typing import Optional
 from .base import PipesClientBase
-from pipes.utils import get_cognito_access_token
+from nrel_pipes.utils import get_cognito_access_token
 
 class DatasetClient(PipesClientBase):
     def __init__(

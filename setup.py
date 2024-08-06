@@ -12,7 +12,7 @@ setup(
     version=__version__,
     author="NREL",
     author_email="janisl.gu@nrel.gov, jordan.eisenman@nrel.gov",
-    packages=find_packages(include=["p", "p.sdk", "p.sdk.*"]),
+    packages=find_packages(include=["nrel_pipes", "nrel_pipes.sdk", "nrel_pipes.sdk.*"]),
     python_requires=">=3.8.0",
     url="https://github.com/nrel-pipes/nrel-pipes",
     install_requires=read_requirements(),
@@ -25,8 +25,8 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'pipes=wrapper:main',
-            'pipes-sdk=p.sdk:main',  # Entry point for the SDK
+            'nrel-pipes=nrel_pipes:main',
+            'pipes-sdk=nrel_pipes.sdk:main',  # Entry point for the SDK
         ],
     },
 )

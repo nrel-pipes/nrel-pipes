@@ -5,11 +5,11 @@ import toml
 from dotenv import load_dotenv
 import requests
 from .auth import get_cognito_access_token
-from pipes.cli.login import login
-from pipes.cli.config import server
+from nrel_pipes.cli.login import login
+from nrel_pipes.cli.config import server
 from .auth import token_valid
 
-from pipes.utils import (
+from nrel_pipes.utils import (
     get_token, ClientSettings
 )
 load_dotenv()

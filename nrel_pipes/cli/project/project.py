@@ -4,14 +4,14 @@ import sys
 import click
 import requests
 import json
-from pipes.utils import (
+from nrel_pipes.utils import (
     get_token, get_or_create_pipes_session, prompt_overwrite,
     get_selected_user_context_from_session, print_response,
     copy_template, load_template, ClientSettings
 )
-from pipes.client import ProjectClient
-from pipes.cli.login import login
-from pipes.cli.config import server
+from nrel_pipes.client import ProjectClient
+from nrel_pipes.cli.login import login
+from nrel_pipes.cli.config import server
 
 TOKEN = get_token()
 
