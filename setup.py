@@ -1,4 +1,4 @@
-from setuptools import setup, find_namespace_packages
+from setuptools import setup, find_packages
 
 __version__ = "0.0.1"
 
@@ -12,7 +12,7 @@ setup(
     version=__version__,
     author="NREL",
     author_email="janisl.gu@nrel.gov, jordan.eisenman@nrel.gov",
-    packages=find_namespace_packages(include=["pipes", "pipes.sdk", "pipes.sdk.*"]),
+    packages=find_packages(include=["pipes", "pipes.*"]),
     python_requires=">=3.8.0",
     url="https://github.com/nrel-pipes/nrel-pipes",
     install_requires=read_requirements(),
@@ -26,7 +26,7 @@ setup(
     entry_points={
         'console_scripts': [
             'pipes=wrapper:main',
-            'pipes-sdk=nrel_pipes.sdk:main',  # Entry point for the SDK
+            'pipes-sdk=pipes.sdk:main',  # Entry point for the SDK
         ],
     },
 )
