@@ -25,7 +25,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'pipes-sdk=pipes.sdk:main',  # Entry point for the SDK
+            'psdk=pipes.sdk:main',  # Entry point for the SDK
         ],
     },
 )
