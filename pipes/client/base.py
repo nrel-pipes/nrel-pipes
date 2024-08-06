@@ -98,7 +98,22 @@ class PipesClientBase(ABC):
         }
         response = requests.post(url=url, json=data, headers=headers)
         return response
-    
+
+    def patch_data(self, extension, queries=None):
+        url = self.url + extension
+        if queries:
+            query_str = "&".join([f"{key}={value}" for key, value in queries.items()])
+            url = f"{url}?{query_str}"
+            print(f"URL after query params: {url}")
+
+        headers = {
+            "Authorization": f"Bearer {self.token}",
+            "accept": "application/json"
+        }
+        response = requests.patch(url=url, headers=headers)
+        response.raise_for_status()  
+        return response
+
     def post_data(self, data, extension, **queries):
         url = self.url + extension
         if queries:
@@ -146,10 +161,6 @@ class PipesClientBase(ABC):
         if response.status_code == 200:
             return response
         return {"message": "Connection failed"}
-
-
-
-
 
     def get_project(self, project=None):
         self.project = project
