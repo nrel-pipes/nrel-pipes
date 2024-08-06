@@ -1,6 +1,6 @@
 import click
 import questionary
-from p.utils import get_or_create_pipes_session, ClientSettings, print_response
+from pipes.utils import get_or_create_pipes_session, ClientSettings, print_response
 
 MAX_PROMPT = 3
 

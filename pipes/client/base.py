@@ -5,11 +5,11 @@ import toml
 from dotenv import load_dotenv
 import requests
 from .auth import get_cognito_access_token
-from p.cli.login import login
-from p.cli.config import server
+from pipes.cli.login import login
+from pipes.cli.config import server
 from .auth import token_valid
 
-from p.utils import (
+from pipes.utils import (
     get_token, ClientSettings
 )
 load_dotenv()

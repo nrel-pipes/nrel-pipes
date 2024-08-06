@@ -7,7 +7,7 @@ import boto3
 from dotenv import load_dotenv
 import json
 import questionary
-from p.utils import get_or_create_pipes_session, token_valid, get_token, print_response, ClientSettings, get_cognito_access_token, token_valid
+from pipes.utils import get_or_create_pipes_session, token_valid, get_token, print_response, ClientSettings, get_cognito_access_token, token_valid
 load_dotenv()
 
 
