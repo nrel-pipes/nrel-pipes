@@ -2,7 +2,7 @@ from .base import PipesClientBase
 
 class TaskClient(PipesClientBase):
     def post_task(self, task, status="PENDING"):
-        self.post_data(task, extension="api/tasks", queries={
+        return self.post_data(task, extension="api/tasks", queries={
             "project": self.project, 
             "projectrun": self.projectrun, 
             "model": self.model,
@@ -14,7 +14,7 @@ class TaskClient(PipesClientBase):
         pass
     
     def patch_task(self, task_name, status="PENDING"):
-        self.patch_data(extension="api/tasks", queries={
+        return self.patch_data(extension="api/tasks", queries={
             "project": self.project, 
             "projectrun": self.projectrun, 
             "model": self.model,
