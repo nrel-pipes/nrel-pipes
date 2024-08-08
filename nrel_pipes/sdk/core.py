@@ -140,7 +140,7 @@ class PIPES(ABC):
         return hte
     
     def post_pipes_task(self, task):
-        print(self.pipes_task_client.post_task(task))
+        return self.pipes_task_client.post_task(task)
 
     def update_pipes_task_status(self, task, status):
         return self.pipes_task_client.patch_task(task, status=status)
