@@ -184,7 +184,6 @@ class PipesClientBase(ABC):
         modeling_team_data = {
             "name": modeling_team,
             "description": f"Modeling team {modeling_team} for project {project_name}",
-            # "members": team["members"]  # Assuming team members are the same
         }
         modeling_team_response = self.post_data(data=modeling_team_data, extension="api/teams", queries={"project": project_name})
         if modeling_team_response.status_code == 201:
