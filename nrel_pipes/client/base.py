@@ -75,7 +75,7 @@ class PipesClientBase(ABC):
         """
         url = self.url 
         if len(queries) > 0:
-            url = f"{url}{extension}/?"
+            url = f"{url}{extension}?"
         for query in queries:
             url = f"{url}{query}={queries[query]}{'&' if query != list(queries.keys())[-1] else ''}"
         headers = {

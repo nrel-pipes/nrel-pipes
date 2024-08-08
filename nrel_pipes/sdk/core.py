@@ -39,6 +39,7 @@ class PIPES(ABC):
             pipes_cognito_client_id=os.getenv('PIPES_COGNITO_CLIENT_ID'),
             username=os.getenv('USERNAME'),
             password=os.getenv('PASSWORD'),
+            pipes_token=None,
             pipes_url=os.getenv('PIPES_URL', "http://localhost:8080/"),
             pipes_client_key=os.getenv('PIPES_CLIENT_KEY'),
             hero_project=os.getenv('HERO_PROJECT'),
@@ -63,16 +64,14 @@ class PIPES(ABC):
         - AWS_ACCESS_KEY_ID
         - AWS_SECRET_ACCESS_KEY
         - AWS_SESSION_TOKEN
-
         - AWS_ACCESS_TOKEN
         - PIPES_ID_TOKEN
-
-
         - PIPES_SQS_URL
         - AWS_REGION
         - PIPES_COGNITO_CLIENT_ID
         - USERNAME
         - PASSWORD
+        - PIPES_TOKEN -- Optionally paste from Pipes Website
         - PIPES_URL (default: "http://localhost:8080/")
         - PIPES_CLIENT_KEY
         - HERO_PROJECT
@@ -88,7 +87,10 @@ class PIPES(ABC):
         """
         # --------------- Pipes ---------------#
         self.cognito_client_id = pipes_cognito_client_id
-        self.pipes_token = get_pipes_token(username, password)
+        if pipes_token:
+            self.pipes_token = pipes_token
+        else:
+            self.pipes_token = get_pipes_token(username, password)
         self.url = pipes_url
         self.client_key = pipes_client_key
         self.pipes_sqs_client = boto3.client(
