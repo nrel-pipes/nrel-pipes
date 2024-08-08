@@ -125,7 +125,6 @@ class PipesClientBase(ABC):
             "Authorization": f"Bearer {self.token}",
             "Content-Type": "application/json"
         }
-        print(headers)
         response = requests.post(url=url, json=data, headers=headers)
         return response
     
