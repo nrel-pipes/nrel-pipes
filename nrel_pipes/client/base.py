@@ -171,7 +171,7 @@ class PipesClientBase(ABC):
             raise ValueError("Please provide name of input file")
         # Creating Project
         create_project = data["create_project"]
-        project_name = create_project["name"] + "uasdfsxcddasdnw"  # Do not let this line go to production
+        project_name = create_project["name"]
         create_project["name"] = project_name
         create_project_response = self.post_data(data=create_project, extension="api/projects", queries={})
         if create_project_response.status_code == 201:
