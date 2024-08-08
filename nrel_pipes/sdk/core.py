@@ -63,6 +63,11 @@ class PIPES(ABC):
         - AWS_ACCESS_KEY_ID
         - AWS_SECRET_ACCESS_KEY
         - AWS_SESSION_TOKEN
+
+        - AWS_ACCESS_TOKEN
+        - PIPES_ID_TOKEN
+
+
         - PIPES_SQS_URL
         - AWS_REGION
         - PIPES_COGNITO_CLIENT_ID

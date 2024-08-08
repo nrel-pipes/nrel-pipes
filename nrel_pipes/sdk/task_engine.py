@@ -100,7 +100,7 @@ class HeroTaskEngine:
         self.task_engine_id = task_engine_id
         self.token = get_hero_token(client_id=HERO_CLIENT_ID, client_secret=HERO_CLIENT_SECRET, scopes=SCOPES)
 
-    def push_task(self, task):
+    def push_task(self, task): # Put task directly... 
         """
         Adds a task to the queue with queue_id
         """
@@ -219,13 +219,14 @@ data = [{'name': 's3',
   'metadata': {'foo': 'yywx'},
   'inputs': {'input1': 'inqlty', 'input2': 'ofprds', 'input3': 'lmguat'},
   'state': 'ready'}]
+HERO_QUEUE_ID="90aef8b9-e066-4946-bddd-11699eda2bf1"
 
 
 if __name__=="__main__":
     print(f"Hero Token {HERO_TOKEN}")
     q = Queue()
     print("\n Queue Pulled Created \n")
-    te = TaskEngine()
+    te = HeroTaskEngine()
     print(data[1])
     te.push_task(data[2])
     print("\n Task Added \n")

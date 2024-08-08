@@ -12,7 +12,18 @@ load_dotenv()
 cognito_idp = boto3.client("cognito-idp", region_name="us-west-2")
 
 
-def get_pipes_token(username, password):
+def get_user_attributes(access_token):
+    """Retrieve user attributes using the Access Token"""
+    cognito_idp = boto3.client('cognito-idp')
+
+    response = cognito_idp.get_user(
+        AccessToken=access_token
+    )
+    
+    return response['UserAttributes']
+
+
+def get_pipes_token(username, password, client_id=PIPES_CLIENT_ID):
     """Get Cognit access token for Bearer authentication"""
     response = cognito_idp.initiate_auth(
         AuthFlow="USER_PASSWORD_AUTH",
@@ -20,7 +31,7 @@ def get_pipes_token(username, password):
             "USERNAME": username,
             "PASSWORD": password,
         },
-        ClientId=PIPES_CLIENT_ID,
+        ClientId=client_id,
     )
     access_token = response["AuthenticationResult"]["AccessToken"]
     return access_token

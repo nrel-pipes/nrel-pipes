@@ -7,7 +7,6 @@ class TaskClient(PipesClientBase):
             "projectrun": self.projectrun, 
             "model": self.model,
             "modelrun": self.modelrun,
-            "status": status
             })
 
     def get_tasks(self, project=None, projectrun=None, model=None, modelrun=None):
