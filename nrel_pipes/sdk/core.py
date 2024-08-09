@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 import requests
 import boto3
 import json
-from .auth import get_pipes_token, get_hero_token, valid_cognito_token
+from .auth import get_pipes_token, valid_cognito_token
 from .task_engine import HeroTaskEngine
 from ..client import TaskClient
 
@@ -22,7 +22,7 @@ from dotenv import load_dotenv
 import requests
 import boto3
 import json
-from .auth import get_pipes_token, get_hero_token, valid_cognito_token
+from .auth import get_pipes_token, valid_cognito_token
 from .task_engine import HeroTaskEngine
 
 load_dotenv()
