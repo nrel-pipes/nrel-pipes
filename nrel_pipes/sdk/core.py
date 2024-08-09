@@ -35,7 +35,6 @@ class PIPES(ABC):
             aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY"),
             aws_session_token=os.getenv("AWS_SESSION_TOKEN"),
             pipes_sqs_url=os.getenv("PIPES_SQS_URL"),
-            aws_region=os.getenv("AWS_REGION"),
             pipes_cognito_client_id=os.getenv('PIPES_COGNITO_CLIENT_ID'),
             username=os.getenv('USERNAME'),
             password=os.getenv('PASSWORD'),
@@ -93,13 +92,6 @@ class PIPES(ABC):
             self.pipes_token = get_pipes_token(username, password)
         self.url = pipes_url
         self.client_key = pipes_client_key
-        self.pipes_sqs_client = boto3.client(
-            'sqs',
-            aws_access_key_id=aws_access_key_id,
-            aws_secret_access_key=aws_secret_access_key,
-            aws_session_token=aws_session_token,
-            region_name=aws_region  # Specify your AWS region
-        )
         self.pipes_queue_url = pipes_sqs_url
         self.project = project
         self.project_run = project_run
