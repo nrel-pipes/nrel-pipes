@@ -75,6 +75,7 @@ class PIPES(ABC):
         """
         # --------------- Pipes ---------------#
         self.cognito_client_id = pipes_cognito_client_id
+        print(f"Pipes Token: {pipes_token}")
         if pipes_token:
             self.pipes_token = pipes_token
         else:
