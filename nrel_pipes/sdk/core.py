@@ -1,9 +1,6 @@
 import os
-from abc import ABC, abstractmethod
+from abc import ABC
 from dotenv import load_dotenv
-import requests
-import boto3
-import json
 from .auth import get_pipes_token, valid_cognito_token
 from .task_engine import HeroTaskEngine
 from ..client import TaskClient
@@ -16,17 +13,9 @@ AWS_SESSION_TOKEN = os.getenv("AWS_SESSION_TOKEN")
 PIPES_SQS_URL = os.getenv("PIPES_SQS_URL")
 AWS_REGION = os.getenv("AWS_REGION")
 
-import os
-from abc import ABC, abstractmethod
-from dotenv import load_dotenv
-import requests
-import boto3
-import json
-from .auth import get_pipes_token, valid_cognito_token
-from .task_engine import HeroTaskEngine
 
-load_dotenv()
 SCOPES = ["task-engine/user"]
+
 
 class PIPES(ABC):
     def __init__(
