@@ -117,7 +117,7 @@ class PIPES(ABC):
         self.cognito_api_url = hero_cognito_api_url
         self.task_engine_api_url = hero_task_engine_api_url
         self.task_engine = HeroTaskEngine(task_engine_id)
-        self.hero_token = get_hero_token(client_id=self.client_id, client_secret=self.client_secret, scopes=SCOPES)
+        # self.hero_token = get_hero_token(client_id=self.client_id, client_secret=self.client_secret, scopes=SCOPES)
 
     def validate_pipes_token(self):
         """This method validates the client ensuring that it has a valid token and URL."""
