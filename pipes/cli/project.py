@@ -53,7 +53,7 @@ def get(project_name, owner):
 
     if not project:
         client = PipesClient()
-        response = client.get_project(name=project_name)
+        response = client.get_project(project_name=project_name)
 
         if response.status_code >= 500:
             print_response(response.text)
