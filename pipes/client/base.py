@@ -1,31 +1,68 @@
-from typing import Optional
-from abc import ABC, abstractmethod
+import json
 import os
 import toml
-from dotenv import load_dotenv
+from abc import ABC
+from typing import Optional
+
 import requests
-from .auth import get_cognito_access_token
-from pipes.cli.login import login
-from pipes.cli.config import server
-from .auth import token_valid
 
-from pipes.utils import (
-    get_token, ClientSettings
-)
-load_dotenv()
+from pipes.auth import get_access_token
+from pipes.config import ClientConfig
+from pipes.session import Session
 
-class PipesClientBase(ABC):
+
+class PipesClientBase:
+
+    def __init__(self):
+        self.headers = {
+            "Authorization": f"Bearer {self.token}",
+            "Content-Type": "application/json"
+        }
+
+    @property
+    def token(self):
+        return Session().data.get('token', None)
+
+    @property
+    def host(self):
+        config = ClientConfig()
+        host = str(config.pipes_server)
+        if host.endswith("/"):
+            return host
+        return host + "/"
+
+    def get(self, url, params=None):
+        url = self.host + url
+        if params:
+            response = requests.get(url, params=params, headers=self.headers)
+        else:
+            response = requests.get(url, headers=self.headers)
+        return response
+
+    def post(self, url, data: dict):
+        url = self.host + url
+        return requests.post(url, data=json.dumps(data), headers=self.headers)
+
+    def ping(self):
+        response = self.get("/api/ping")
+        if response.status_code == 200:
+            return "pong"
+        else:
+            return "ping failed"
+
+
+class PipesClientBase1(ABC):
     def __init__(
-            self, 
+            self,
             url: Optional[str] = None,
-            username: Optional[str] = None, 
-            password: Optional[str] = None, 
+            username: Optional[str] = None,
+            password: Optional[str] = None,
             token: Optional[str] = None,
             project: Optional[str] = None,
-            projectrun: Optional[str] = None, 
-            model: Optional[str] = None, 
-            modelrun: Optional[str] = None, 
-            datasets: Optional[str] = None, 
+            projectrun: Optional[str] = None,
+            model: Optional[str] = None,
+            modelrun: Optional[str] = None,
+            datasets: Optional[str] = None,
             teams: Optional[str] = None
             ):
         """
@@ -35,7 +72,7 @@ class PipesClientBase(ABC):
         self.url = url if url else None
         self.token = token if token else None
         if not self.token and isinstance(username, str) and isinstance(password, str):
-            self.token = get_cognito_access_token(username, password)
+            self.token = get_access_token(username, password)
         else:
             self.pipes_login = False
         self.project = project
@@ -47,18 +84,16 @@ class PipesClientBase(ABC):
 
     def validate(self, ctx):
         """This method validates the client ensuring that it has a valid token and URL."""
-        token = get_token()
-        if not token or not token_valid(token) or not token_valid(self.token):
+        token = get_access_token()
+        if not token or not validate_access_token(token) or not validate_access_token(self.token):
             print("You have not properly logged in or token has expired. You must now input your credentials.")
-            print(token_valid(token))
-            ctx.invoke(login)
-            self.token = get_token()
+            print(validate_access_token(token))
+            self.token = get_access_token()
             self.pipes_login = True
         if self.url is None:
             print("You have not provided a URL. You must now configure your server.")
-            ctx.invoke(server)
             self.pipes_login = True
-            settings = ClientSettings()
+            settings = ClientConfig()
             self.url = settings.get_server()
             print("Re-obtained pipes server")
         return self
@@ -70,10 +105,10 @@ class PipesClientBase(ABC):
 
     def get(self, extension, **queries):
         """
-        Does get requests for our given api and 
+        Does get requests for our given api and
         url to get
         """
-        url = self.url 
+        url = self.url
         if len(queries) > 0:
             url = f"{url}{extension}/?"
         for query in queries:
@@ -98,7 +133,7 @@ class PipesClientBase(ABC):
         }
         response = requests.post(url=url, json=data, headers=headers)
         return response
-    
+
     def post_data(self, data, extension, **queries):
         url = self.url + extension
         if queries:
@@ -112,7 +147,7 @@ class PipesClientBase(ABC):
         }
         response = requests.post(url=url, json=data, headers=headers)
         return response
-    
+
     def put_data(self, data, extension, **queries):
         url = self.url + extension
         if len(queries) > 1:
@@ -140,7 +175,7 @@ class PipesClientBase(ABC):
         }
         response = requests.put(url=url, json=data, headers=headers)
         return response
-    
+
     def check_connection(self):
         response = self.get("", **{})
         if response.status_code == 200:
@@ -167,7 +202,7 @@ class PipesClientBase(ABC):
             print(f"Project {project_name} created successfully!")
         else:
             raise Exception("Invalid Project configuration.")
-        
+
         # Put team
         modeling_team = data["create_model"]["modeling_team"]
         modeling_team_data = {
@@ -181,7 +216,7 @@ class PipesClientBase(ABC):
         else:
             print(f"Error creating modeling team: {modeling_team_response.json()}")
             raise Exception("Invalid Modeling team configuration.")
-        
+
         # # Creating projectrun
         create_projectrun = data["create_projectrun"]
         # create_projectrun["project"] = project_name
@@ -190,7 +225,7 @@ class PipesClientBase(ABC):
             print(f"Project run {create_projectrun['name']} created successfully!")
         else:
             raise Exception("Invalid Project run configuration.")
-        
+
         # Creating a model
         # breakpoint()
         create_model = data["create_model"]
@@ -202,7 +237,7 @@ class PipesClientBase(ABC):
         else:
             print(f"Error creating model: {model_response.json()}")
             raise Exception("Invalid Model configuration.")
-        
+
 
     def post_model_data(self, data):
         """
@@ -233,7 +268,7 @@ class PipesClientBase(ABC):
             raise ValueError("Please provide a project and projectrun")
         response = self.post_toml(file, "api/projectruns", project=self.project)
         return response
-    
+
     def get_models(self, project=None, projectrun=None):
         if project is not None:
             self.project = project
@@ -242,7 +277,7 @@ class PipesClientBase(ABC):
         if not project or not projectrun:
             raise ValueError("Please provide a project and projectrun")
         return self.get("api/models", **{"project": project, "projectrun": projectrun})
-    
+
     def post_model(self, file, project=None, projectrun=None):
         if project is not None:
             self.project = project
@@ -251,18 +286,18 @@ class PipesClientBase(ABC):
         if not project or not projectrun:
             raise ValueError("Please provide a project and projectrun")
         return self.post_toml(file, "api/models", project=project, projectrun=projectrun)
-    
+
     def get_modelruns(self, project, projectrun, model):
         if project is not None:
             self.project = project
         if projectrun is not None:
             self.projectrun = projectrun
-        if model is not None: 
+        if model is not None:
             self.model = model
         if not project or not projectrun or not model:
             raise ValueError("Please provide a project, projectrun, and model")
         return self.get("api/modelruns", **{"project": project, "projectrun": projectrun, "model": model})
-    
+
     def post_modelrun(self, file, project=None, projectrun=None, model=None):
         if project is not None:
             self.project = project
@@ -319,7 +354,3 @@ class PipesClientBase(ABC):
 
     def model_progress(model_context):
         return {"message": "Feature in development"}
-
-if __name__=="__main__":
-    username = os.environ.get("USERNAME")
-    password = os.environ.get("PASSWORD")

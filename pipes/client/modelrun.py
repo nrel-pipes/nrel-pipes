@@ -1,33 +1,17 @@
-from abc import ABC, abstractmethod
-import os
-import toml
-from typing import Optional
-from dotenv import load_dotenv
-# from auth import get_cognito_access_token
-import requests
 from .base import PipesClientBase
-load_dotenv()
 
 
-class ModelRunClient(ABC):
-    def get_modelruns(self, project, projectrun, model):
-        if project is not None:
-            self.project = project
-        if projectrun is not None:
-            self.projectrun = projectrun
-        if model is not None: 
-            self.model = model
-        if not project or not projectrun or not model:
-            raise ValueError("Please provide a project, projectrun, and model")
-        return self.get("api/modelruns", **{"project": project, "projectrun": projectrun, "model": model})
-    
-    def post_modelrun(self, file, project=None, projectrun=None, model=None):
-        if project is not None:
-            self.project = project
-        if projectrun is not None:
-            self.projectrun = projectrun
-        if model is not None:
-            self.model = model
-        if not project or not projectrun or not model:
-            raise ValueError("Please provide a project, projectrun, and model")
-        return self.post_toml(file, "api/modelruns", project=project, projectrun=projectrun, model=model)
+class ModelRunClient(PipesClientBase):
+    def list_modelruns(self, project_name, projectrun_name, model_name):
+        params = {
+            "project": project_name,
+        }
+        if projectrun_name:
+            params["projectrun"] = projectrun_name
+        if model_name:
+            params["model"] = model_name
+        return self.get("api/modelruns", params=params)
+
+    def create_modelrun(self, project_name,  projectrun_name, model_name, modelruns_data):
+        mr_url = f"api/modelruns?project={project_name}&projectrun={projectrun_name}&model={model_name}"
+        return self.post(mr_url, data=modelruns_data)
