@@ -46,9 +46,9 @@ class PipesClientBase:
     def ping(self):
         response = self.get("/api/ping")
         if response.status_code == 200:
-            return "pong"
+            return self.host + " pong"
         else:
-            return "ping failed"
+            return "Failed to ping " + self.host
 
 
 class PipesClientBase1(ABC):

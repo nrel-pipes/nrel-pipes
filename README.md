@@ -1,73 +1,64 @@
-# PIPES CLI Client
+# PIPES Clients
 
 ## Package Installation
 
-For each Python project, normally we recommend to create a virtual environment for isolation, and install the package and its dependencies into it. The virtual environment could be created by using tools, like `virtualenv`, `conda`, `pipenv`, or Python's built-in `venv` module, based on your own flavor.
+Create a virtual Python environment using tools, like `conda`, `virtualenv`, `pipenv`, or Python `venv` module.
 
-### Python Environment
-* Python >= 3.7
-
-Create a virtual Python environment using a tool you prefer, like `conda`, `virtualenv`, or `pipenv`, etc.
-Then install this `pipes` client package and its dependecy `pipes_core`.
-
-### Install Packages
-After active your Python virtual environment, then you can install directly from the repository,
-
-#### PIPES Client
+For example, by using Python `venv` module,
 ```bash
-$ pip install git+https://github.com/nrel-pipes/pipes-client.git@develop
+$ python3 -m venv venv
 ```
 
-Or you can install in editable after clone it,
+Then activate it,
 ```bash
-$ git clone https://github.com/nrel-pipes/pipes-client.git
+$ source venv/bin/activate
+```
+
+Next, install this package from the remote repository,
+```bash
+$ pip install git+https://github.com/nrel-pipes/nrel-pipes.git@develop
+```
+
+Or you can clone and install it locally,
+```bash
+$ git clone https://github.com/nrel-pipes/nrel-pipes.git
 $ pip install -e .
 ```
 
-#### PIPES Core
-
-The PIPES client depends on [PIPES Core](https://github.com/nrel-pipes/pipes-core), so need to install it
-
-```
-$ pip install git+https://github.com/nrel-pipes/pipes-core.git@feature/project-init
-```
-
-Or you can install editable after clone it,
-```bash
-$ git clone https://github.com/nrel-pipes/pipes-core.git
-$ git checkout feature/project-init
-$ pip install -e .
-```
-
-
-## PIPES Service Setup
+Validate the installation,
 
 ```bash
-$ git submodule add https://github.com/nrel-pipes/pipes-protobufs.git pipes-protobufs
+$ pipes --help
 ```
 
-Note that in `.gitmodules`, a git branch is specified during the development. And, use the
-command below to update submodule if need,
+## Client Config
 
+The client needs to be configured before running any command, run the following command first.
 ```bash
-$ git submodule update --init --recursive
+$ pipes config init
 ```
 
-If it does not work, then try:
-
+If you like to check the configuration, run the following command,
 ```bash
-$ git submodule update --init --recursive --remote
+$ pipes config show
 ```
 
-Change to the root direcory of the repository, and populate gRPC client code using command below,
-
+For developers, if you need local server for development, then switch the server by running this,
 ```bash
-$ ./build_grpc.sh
+$ pipes server update
 ```
 
-## Command Reference
+Validate the configuration, you can ping the server,
+```bash
+$ pipes server ping
+```
 
-The PIPES CLI is a unified tool to manage the PIPES pipelines.
+If you see `pong` in console, then the config works!
+
+
+## CLI Commands
+
+The PIPES CLI is a unified tool to manage the PIPES projects and pipelines.
 
 Synopsis
 
@@ -90,11 +81,7 @@ Options:
   --help  Show this message and exit.
 
 Commands:
-  config    config CLI client
-  dataset   dataset operation commands
-  model     model operation commands
-  pipeline  pipeline operation commands
-  project   project operation commands
+  ...
 ```
 
 For example
