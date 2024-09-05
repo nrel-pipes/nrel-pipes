@@ -1,4 +1,6 @@
 from .base import PipesClientBase
 
 class TaskClient(PipesClientBase):
-    pass
+
+    def update_task(self, task_status):
+        requests.patch()

@@ -1,0 +1,4 @@
+PIPES_SERVER='pipes-api.nrel.gov'
+PIPES_COGNITO='6n5co9eh7bab4a21egr95ds3r8'
+PIPES_USERNAME=''
+PIPES_PASSWORD=''

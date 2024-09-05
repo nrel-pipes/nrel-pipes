@@ -1,55 +1,84 @@
 from .base import PipesClientBase
 
-class ProjectClient(PipesClientBase):
-    def get_project(self, project=None):
-        self.project = project
-        return self.get("api/projects", **{"project": project})
 
-    def post_project(self, data):
-        if not data:
-            raise ValueError("Please provide name of input file")
-        # Creating Project
-        create_project = data["create_project"]
-        project_name = create_project["name"] + "uasdfsxcddasdnw"  # Do not let this line go to production
-        create_project["name"] = project_name
-        create_project_response = self.post_data(data=create_project, extension="api/projects", queries={})
-        if create_project_response.status_code == 201:
-            print(f"Project {project_name} created successfully!")
-        else:
-            raise Exception("Invalid Project configuration.")
-        
-        # Put team
-        modeling_team = data["create_model"]["modeling_team"]
-        modeling_team_data = {
-            "name": modeling_team,
-            "description": f"Modeling team {modeling_team} for project {project_name}",
-            # "members": team["members"]  # Assuming team members are the same
+
+class ProjectClient(PipesClientBase):
+
+    def list_projects(self):
+        return self.get("api/projects/basics")
+
+    def get_project(self, project_name):
+        return self.get("api/projects", params={"project": project_name})
+
+    def create_project(self, project_data):
+        """Creating a new project includes several different API calls"""
+        # Raw data
+        try:
+            raw_project = project_data["project"]
+            raw_projectruns = project_data["project_runs"]
+            raw_teams = project_data["model_teams"]
+        except KeyError:
+            return {
+                "detail": "Invalid project data, please check"
+            }
+
+        # Project
+        p_name = raw_project["name"]
+        clean_project = dict(
+            name=p_name,
+            title=raw_project["full_name"],
+            description=raw_project["description"],
+            assumptions=raw_project["assumptions"],
+            requirements=raw_project["requirements"],
+            scenarios=raw_project["scenarios"],
+            sensitivities=raw_project["sensitivities"],
+            milestones=raw_project["milestones"],
+            scheduled_start=raw_project["scheduled_start"],
+            scheduled_end=raw_project["scheduled_end"],
+            owner=raw_project["owner"],
+        )
+
+        p_url = f"api/projects"
+        self.post(p_url, data=clean_project)
+
+        # Teams
+        t_url = f"api/teams?project={p_name}"
+        for team in raw_teams:
+            self.post(t_url, data=team)
+
+        # Project runs
+        pr_url = f"api/projectruns?project={p_name}"
+        for projectrun in raw_projectruns:
+            pr_name = projectrun["name"]
+            self.post(pr_url, data=projectrun)
+
+            # Add models to project runs
+            m_url = f"api/models?project={p_name}&projectrun={pr_name}"
+            for raw_model in projectrun["models"]:
+                clean_model = raw_model.copy()
+                clean_model["name"] = raw_model["model"]
+                if not clean_model.get("modeling_team", None):
+                    clean_model["modeling_team"] = raw_model["model"]
+                self.post(m_url, data=clean_model)
+
+            # Create handoff plans
+            topology = projectrun["topology"]
+            handoffs = []
+            for topo in topology:
+                for h in topo["handoffs"]:
+                    clean_handoff = {
+                        "from_model": topo["from_model"],
+                        "to_model": topo["to_model"],
+                        "name": h["id"],
+                        "description": h["description"],
+                        "scheduled_start": h["scheduled_start"],
+                        "scheduled_end": h["scheduled_end"],
+                        "notes": h["notes"],
+                    }
+                    handoffs.append(clean_handoff)
+            h_url = f"api/handoffs?project={p_name}&projectrun={pr_name}"
+            self.post(h_url, data=handoffs)
+
+        return {
+            "detail": f"Project '{p_name}' created successfully."
         }
-        modeling_team_response = self.post_data(data=modeling_team_data, extension="api/teams", queries={"project": project_name})
-        if modeling_team_response.status_code == 201:
-            print(f"Modeling team {modeling_team} created successfully!")
-        else:
-            print(f"Error creating modeling team: {modeling_team_response.json()}")
-            raise Exception("Invalid Modeling team configuration.")
-        
-        # # Creating projectrun
-        create_projectrun = data["create_projectrun"]
-        # create_projectrun["project"] = project_name
-        projectrun_response = self.post_data(data=create_projectrun, extension="api/projectruns", queries={"project": project_name})
-        if projectrun_response.status_code == 201:
-            print(f"Project run {create_projectrun['name']} created successfully!")
-        else:
-            raise Exception("Invalid Project run configuration.")
-        
-        # Creating a model
-        # breakpoint()
-        create_model = data["create_model"]
-        create_model["project"] = project_name
-        create_model["projectrun"] = create_projectrun["name"]
-        model_response = self.post_model_data(data=create_model)
-        if model_response.status_code == 201:
-            print(f"Model {create_model['name']} created successfully!")
-        else:
-            print(f"Error creating model: {model_response.json()}")
-            raise Exception("Invalid Model configuration.")
-        

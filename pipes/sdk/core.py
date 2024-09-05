@@ -1,5 +1,7 @@
 import requests
 
+from pipes.client import PipesClient
+
 
 class PIPES(object):
 
@@ -21,3 +23,8 @@ class PIPES(object):
         # API call
         # response = requests.post(url, headers)
         return response
+
+    def update_task(self, task, source):
+        client = PipesClient()
+        client.update_task()
+        client.create_dataset()

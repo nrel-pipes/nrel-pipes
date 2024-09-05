@@ -1,17 +1,20 @@
 from .base import PipesClientBase
 
-class ProjectRunClient(PipesClientBase):
-    def get_projectruns(self, project=None):
-        if project is not None:
-            self.project = project
-        if not project:
-            raise ValueError("Please provide a project")
-        return self.get("api/projectruns", **{"project": self.project})
 
-    def post_projectrun(self, file, project=None):
-        if project is not None:
-            self.project = project
-        if not self.project:
-            raise ValueError("Please provide a project and projectrun")
-        response = self.post_toml(file, "api/projectruns", project=self.project)
-        return response
+class ProjectRunClient(PipesClientBase):
+
+    def list_projectruns(self, project_name):
+        return self.get("api/projectruns", params={"project": project_name})
+
+    def create_projectruns(self, project_name, projectruns_data):
+        pr_url = f"api/projectruns?project={project_name}"
+
+        if isinstance(projectruns_data, dict):
+            projectruns_data = [projectruns_data]
+
+        for projectrun in projectruns_data:
+            self.post(pr_url, data=projectrun)
+
+        return {
+            "detail": "Project runs created successfully"
+        }
