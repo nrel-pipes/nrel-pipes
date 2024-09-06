@@ -18,6 +18,7 @@ class TeamClient(PipesClientBase):
                     return team
         return None
 
+    # TODO: Update this wiht put method
     def update_team(self, project_name, team_name, team_data):
         print(team_data)
         return self.put(f"api/teams/detail?project={project_name}&team={team_name}", data=team_data)
