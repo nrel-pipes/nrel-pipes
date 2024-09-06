@@ -5,7 +5,7 @@ import click
 from pipes.utils import print_response
 from pipes.config import ClientConfig
 
-from pipes.config import PIPES_CONFIG_DIR, PIPES_CONFIG_FILE, PIPES_DEFAULT_CONFIG_FILE
+from pipes.config import PIPES_CONFIG_DIR, PIPES_CONFIG_FILE, PIPES_CONFIG_FILE_DEFAULT
 
 
 @click.group()
@@ -21,7 +21,7 @@ def init():
         PIPES_CONFIG_DIR.mkdir(exist_ok=True)
 
     if not PIPES_CONFIG_FILE.exists():
-        shutil.copyfile(PIPES_DEFAULT_CONFIG_FILE, PIPES_CONFIG_FILE)
+        shutil.copyfile(PIPES_CONFIG_FILE_DEFAULT, PIPES_CONFIG_FILE)
 
     print("Config initialized successfully.")
 

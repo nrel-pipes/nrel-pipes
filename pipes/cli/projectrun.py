@@ -26,7 +26,7 @@ def projectrun(ctx):
 @click.option(
     "-p", "--project-name",
     type=str,
-    required=False,
+    required=True,
     help="The project name"
 )
 def list(project_name):

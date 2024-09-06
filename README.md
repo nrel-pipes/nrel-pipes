@@ -43,17 +43,22 @@ If you like to check the configuration, run the following command,
 $ pipes config show
 ```
 
-For developers, if you need local server for development, then switch the server by running this,
-```bash
-$ pipes server update
-```
-
 Validate the configuration, you can ping the server,
 ```bash
 $ pipes server ping
 ```
 
 If you see `pong` in console, then the config works!
+
+
+For developers, if you need local server for development, then switch the server by running this,
+```bash
+$ pipes server conf
+? Choose the PIPES server: (Use arrow keys)
+ » [prod] https://pipes-api.nrel.gov
+   [dev] https://pipes-api-dev.nrel.gov
+   [local] http://localhost:8080
+```
 
 
 ## CLI Commands
@@ -66,127 +71,124 @@ Synopsis
 $ pipes <command-group> <subcommand> [parameters]
 ```
 
-Command Groups
+The client requires user to login before calling the commands below.
 
-Use `--help` (boolean) option to check help text information of commmands and
-subcommands. For example,
-
-```bash
-$ pipes --help
-Usage: pipes [OPTIONS] COMMAND [ARGS]...
-
-  PIPES CLI client
-
-Options:
-  --help  Show this message and exit.
-
-Commands:
-  ...
-```
-
-For example
-
-```bash
-$ pipes project --help
-```
-
-### 1. Config Commands
-
-The subcommands included:
-
-* `pipes config service`
-* `pipes config session`
-
-### 2. Project Commands
-
-Initialize project
-```bash
-$ pipes project create-project -f tests/data/templates/test_project.toml
-```
-
-Check project run progress
-```bash
-$ pipes project check-project-run-progress -p test1 -r 1
-```
-
-### 3. Model Commands
-
-Create model run
-```bash
-$ pipes model list-models -p test1 -r 1
-$ pipes model create-model-run -p test1 -r 1 -m dsgrid -f tests/data/templates/test_model_run.toml
-```
-
-Check model run progress
-```bash
-$ pipes model check-model-run-progress -p test1 -r 1 -m dsgrid -x model-run-1
-```
-
-Close a model run
-```bash
-$ pipes model close-model-run -p test1 -r 1 -m dsgrid -x model-run-1
-```
-
-
-### 4. Dataset Commands
-
-Get checkin TOML template
-```bash
-$ pipes dataset get-checkin-template  --system ESIFRepoAPI
-```
-
-Checkin dataset
-```bash
-$ pipes dataset checkin-dataset -p test1 -r 1 -m dsgrid -x model-run-1 -f tests/data/templates/test_dataset.toml
-```
-
-### 5. Handoff Commands
-
-Plan tasks into handoff
-```bash
-$ pipes handoff plan-tasks -f tests/data/templates/test_tasks.toml -p test1 -r 1 -m dsgrid -x model-run-1
-```
-
-Get Task information from handoff
-```bash
-$ pipes handoff get-task -p test1 -r 1 -m dsgrid -x model-run-1 -h handoff_id1 -i trans_1
-```
-
-List Tasks from handoff
-```bash
-$ pipes handoff list-tasks -p test1 -r 1 -m dsgrid -x model-run-1 -h handoff_id1 -t visualization
-```
-
-Create task vertex
-```bash
-$ pipes handoff create-tasks -p test1 -r 1 -m dsgrid -x model-run-1 -f tests/data/templates/test_qaqc.toml --task-pass
-```
-
-Get task status
-```bash
-$ pipes handoff get-task-status -p test1 -r 1 -m dsgrid -x model-run-1 -t check-wind
-```
-
-Update task status
-```bash
-$ pipes handoff update-task-status -p test1 -r 1 -m dsgrid -x model-run-1 -t check-wind --task-fail
-```
-
-
-### 6. Service Context
-
-Get user context
 ```bash
 $ pipes login
 ```
-Choose a selection based on CLI prompts, and setup CLI session.
 
-List modeling teams in PIPES
+
+### 1. Project
+
+1.1 Create project from given TOML file
 ```bash
-$ pipes service list-modeling-teams
+$ pipes project create -f tests/data/templates/test_project.toml
 ```
 
-Add new user to PIPES
+Please note that the project name should be unique. If it's already exists, then
+need to change the project name.
+
+1.2 List all your projects with basic info,
+```bash
+$ pipes project list
 ```
-$ pipes service add-user -u username -e test@example.gov -f first -l last
+
+1.2 Get detailed project by name
+```bash
+$ pipes project get -p <project-name>
 ```
+
+1.3 Get the project owner info
+```bash
+$ pipes project get -p <project-name> --owner
+```
+
+### 2. Project Run
+
+2.1 List all project runs under given project
+```bash
+$ pipes projectrun list -p <project-name>
+```
+
+### 3. Model
+
+3.1 List all models under given project and project run
+```bash
+$ pipes model list -p <project-name> -r <project-run-name>
+```
+
+
+### 4. Model Run
+
+4.1 List all model runs under given context
+```bash
+$ pipes modelrun list -p <project-name> -r <project-run-name> -m <model-name>
+```
+
+
+### 5. Dataset
+
+5.1 List all datasets under given context
+```bash
+$ pipes dataset list -p <project-name> -r <project-run-name> -m <dataset-name> -x <model-run-name>
+```
+
+### 6. Task
+
+6.1 List all tasks under given context
+```bash
+$ pipes task list -p <project-name> -r <project-run-name> -m <dataset-name> -x <model-run-name>
+```
+
+### 7. Handoff
+
+7.1 List all handoffs under given context
+```bash
+$ TODO:
+```
+
+### 8. Team
+
+8.1 List all modeling teams under given project,
+```bash
+$ pipes team list -p <project-name>
+```
+
+8.2 Get one team info with given project name and team name
+```bash
+$ pipes team get -p <project-name> -t <team-name>
+```
+
+8.3 Create a new team under given project
+Get a team creation template,
+```bash
+$ pipes team template -t team-creation
+```
+Edit the template and provide all team information
+
+Then, create the team from template,
+```bash
+$ pipes team create -p <project-name> -f team-creation.toml
+```
+
+### 9. User
+
+9.1 List all users [Admin required]
+```bash
+$ pipes user list
+```
+
+9.2 Get a user by username (email)
+```bash
+$ pipes user get -u <email>
+```
+
+9.3 Create a new user in PIPES
+```bash
+$ pipes user create -u <email> -f <first-name> -l <last-name> -o <organization>
+```
+
+## Technical Support
+The CLI client is still under development mode, more commands will be available soon!
+
+If any issue encountered, feel free to reach out to Jianli Gu (jianli.gu@nrel.gov).

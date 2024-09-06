@@ -1,30 +1,40 @@
-import json
 import sys
 from pathlib import Path
 
 from pydantic import Field, EmailStr
 from pydantic_settings import BaseSettings
 
-PIPES_API_SERVER = 'pipes-api.nrel.gov'
-
 PIPES_CONFIG_DIR = Path.home() / ".pipes"
 
 PIPES_CONFIG_FILE = Path.home() / ".pipes" / "config"
 
-PIPES_DEFAULT_CONFIG_FILE = Path(__file__).parent  / "config" / "default" / "config"
+PIPES_CONFIG_FILE_DEFAULT = Path(__file__).parent  / "config" / "default" / "config"
 
-PIPES_COGNITO_CLIENT_ID = "6n5co9eh7bab4a21egr95ds3r8"
+PIPES_CONFIG_DATA = {
+    "local": {
+        "PIPES_API_SERVER": "http://127.0.0.1:8080",
+        "PIPES_COGNITO_CLIENT": "6n5co9eh7bab4a21egr95ds3r8"
+    },
+    "dev": {
+        "PIPES_API_SERVER": "https://pipes-api-dev.nrel.gov",
+        "PIPES_COGNITO_CLIENT": "clfpli1avt6eil03ovr11qdpi"
+    },
+    "prod": {
+        "PIPES_API_SERVER": "https://pipes-api.nrel.gov",
+        "PIPES_COGNITO_CLIENT": "539o71b6rh0ua124ro8q3bv39s"
+    }
+}
 
 
 class ClientConfig(BaseSettings):
     """Settings for config cloud credentials"""
     pipes_server: str = Field(
         title="server",
-        default=PIPES_API_SERVER,
+        default=PIPES_CONFIG_DATA["prod"]["PIPES_API_SERVER"],
     )
     pipes_cognito: str = Field(
         title="cognito",
-        default=PIPES_COGNITO_CLIENT_ID
+        default=PIPES_CONFIG_DATA["prod"]["PIPES_COGNITO_CLIENT"]
     )
     pipes_username: EmailStr | None = Field(
         title="username",
