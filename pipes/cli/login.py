@@ -71,6 +71,6 @@ def login():
         session.update(data)
         session.save()
         config.save()
-        print("Login success!")
+        print(f"Login success! {config.pipes_server}")
     except Exception:
         print("Incorrect username and/or password, please try again.")

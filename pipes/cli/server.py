@@ -45,6 +45,11 @@ def conf():
         sys.exit(1)
     env = selected.split("] ")[0][1:]
     pipes_server = selected.split("] ")[1]
-    config.pipes_server = pipes_server
-    config.pipes_cognito = PIPES_CONFIG_DATA[env]["PIPES_COGNITO_CLIENT"]
-    config.save()
+
+    if config.pipes_server != pipes_server:
+        config.pipes_server = pipes_server
+        config.pipes_cognito = PIPES_CONFIG_DATA[env]["PIPES_COGNITO_CLIENT"]
+        config.save()
+        print("! Server changed, please run 'pipes login' to login")
+    else:
+        print("! Server no change")
