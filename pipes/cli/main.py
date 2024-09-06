@@ -11,7 +11,6 @@ from .dataset import dataset
 from .server import server
 from .task import task
 from .team import team
-from .template import template
 from .user import user
 
 
@@ -24,7 +23,6 @@ def main(args=None):
 
 main.add_command(config)
 main.add_command(login)
-main.add_command(template)
 main.add_command(server)
 
 main.add_command(project)

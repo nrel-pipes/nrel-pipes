@@ -31,6 +31,13 @@ class PipesClientBase:
             return host
         return host + "/"
 
+    def ping(self):
+        response = self.get("/api/ping")
+        if response.status_code == 200:
+            return self.host + " pong"
+        else:
+            return "Failed to ping " + self.host
+
     def get(self, url, params=None):
         url = self.host + url
         if params:
@@ -43,12 +50,10 @@ class PipesClientBase:
         url = self.host + url
         return requests.post(url, data=json.dumps(data), headers=self.headers)
 
-    def ping(self):
-        response = self.get("/api/ping")
-        if response.status_code == 200:
-            return self.host + " pong"
-        else:
-            return "Failed to ping " + self.host
+    def put(self, url, data: dict):
+        url = self.host + url
+        return requests.put(url, data=json.dumps(data), headers=self.headers)
+
 
 
 class PipesClientBase1(ABC):

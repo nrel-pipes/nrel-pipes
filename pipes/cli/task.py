@@ -6,7 +6,7 @@ import click
 
 from pipes.utils import prompt_overwrite, print_response
 
-from pipes.template.template import copy_template, load_template
+from pipes.template import copy_template, load_template
 
 import click
 

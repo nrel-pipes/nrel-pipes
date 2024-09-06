@@ -23,7 +23,7 @@ def ping():
 
 @server.command()
 def show():
-    """Show current PIPES server host"""
+    """Show current PIPES server"""
     config = ClientConfig()
     print_response(config.pipes_server)
 
