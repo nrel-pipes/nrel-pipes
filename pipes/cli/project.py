@@ -87,7 +87,7 @@ def create(template_file):
     data = load_template(template_file)
     client = PipesClient()
     response = client.create_project(data)
-    print_response(response)
+    print_response(response["detail"])
 
 
 @project.command()

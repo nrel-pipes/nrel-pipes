@@ -39,17 +39,21 @@ class ProjectClient(PipesClientBase):
         )
 
         p_url = f"api/projects"
+        print(f"Creating project '{p_name}' from template...")
         self.post(p_url, data=clean_project)
 
         # Teams
         t_url = f"api/teams?project={p_name}"
         for team in raw_teams:
+            t_name = team["name"]
+            print(f"Creating team '{t_name}'...")
             self.post(t_url, data=team)
 
         # Project runs
         pr_url = f"api/projectruns?project={p_name}"
         for projectrun in raw_projectruns:
             pr_name = projectrun["name"]
+            print(f"Creating project run '{pr_name}'...")
             self.post(pr_url, data=projectrun)
 
             # Add models to project runs
@@ -57,6 +61,8 @@ class ProjectClient(PipesClientBase):
             for raw_model in projectrun["models"]:
                 clean_model = raw_model.copy()
                 clean_model["name"] = raw_model["model"]
+                m_name = clean_model["name"]
+                print(f"Creating model '{m_name}' under project run '{pr_name}'")
                 if not clean_model.get("modeling_team", None):
                     clean_model["modeling_team"] = raw_model["model"]
                 self.post(m_url, data=clean_model)
@@ -77,6 +83,7 @@ class ProjectClient(PipesClientBase):
                     }
                     handoffs.append(clean_handoff)
             h_url = f"api/handoffs?project={p_name}&projectrun={pr_name}"
+            print(f"Creating handoffs under project run '{pr_name}'...")
             self.post(h_url, data=handoffs)
 
         return {
