@@ -94,6 +94,12 @@ def create(project_name, template_file):
     help="The project template path"
 )
 @click.option(
+    "-t", "--team-name",
+    type=str,
+    required=True,
+    help="team name"
+)
+@click.option(
     "-f", "--template-file",
     type=click.Path(exists=True),
     required=False,

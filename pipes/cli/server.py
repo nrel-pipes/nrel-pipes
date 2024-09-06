@@ -29,7 +29,8 @@ def show():
 
 
 @server.command()
-def update():
+def conf():
+    """Switch the PIPES server"""
     config = ClientConfig()
     selected = questionary.select(
         "Choose the PIPES server:",
