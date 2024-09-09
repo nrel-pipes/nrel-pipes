@@ -51,7 +51,7 @@ $ pipes server ping
 If you see `pong` in console, then the config works!
 
 
-For developers, if you need local server for development, then switch the server by running this,
+For developers or testers, if you need local or dev server, then switch the server by running this,
 ```bash
 $ pipes server conf
 ? Choose the PIPES server: (Use arrow keys)
