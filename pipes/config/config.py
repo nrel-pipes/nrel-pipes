@@ -8,7 +8,7 @@ PIPES_CONFIG_DIR = Path.home() / ".pipes"
 
 PIPES_CONFIG_FILE = Path.home() / ".pipes" / "config"
 
-PIPES_CONFIG_FILE_DEFAULT = Path(__file__).parent  / "config" / "default" / "config"
+PIPES_CONFIG_FILE_DEFAULT = Path(__file__).parent  / "default" / "config"
 
 PIPES_CONFIG_DATA = {
     "local": {
