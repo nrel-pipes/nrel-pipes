@@ -24,9 +24,8 @@ def login():
     yes = False
     if username:
         yes = questionary.confirm("Username(Email): " + username).ask()
-
-    if yes is None:
-        sys.exit(1)
+        if yes is None:
+            sys.exit(1)
 
     if (yes is False) or (not username):
         # Prompt for username(email)
