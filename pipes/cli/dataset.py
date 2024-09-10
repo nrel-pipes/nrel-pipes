@@ -147,7 +147,7 @@ def location(ctx, project_name, project_run_name, model_name, model_run_name, da
         datasets = response.json()
         for dataset in datasets:
             if dataset["name"] == dataset_name:
-                print_response(f"The location of this dataset is {dataset["location"]}")
+                print_response(f"The location of this dataset is {dataset['location']}")
                 return
         print_response(f"Dataset {dataset_name} not found")
     else:
