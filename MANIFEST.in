@@ -2,6 +2,7 @@ include CONTRIBUTING.rst
 include HISTORY.rst
 include LICENSE
 include README.rst
+include pipes/config/default/config
 
 recursive-include * *.toml
 recursive-include tests *
