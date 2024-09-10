@@ -21,6 +21,7 @@ def login():
     username = config.pipes_username
     password = config.pipes_password
 
+    yes = False
     if username:
         yes = questionary.confirm("Username(Email): " + username).ask()
 
