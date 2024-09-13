@@ -42,26 +42,26 @@ class ProjectClient(PipesClientBase):
             owner=raw_project["owner"],
         )
 
-        # p_url = f"api/projects"
-        # print_response(f"Creating project '{p_name}' from template...")
-        # response = self.post(p_url, data=clean_project)
-        # print_response(response, suppressed=True)
+        p_url = f"api/projects"
+        print_response(f"Creating project '{p_name}' from template...")
+        response = self.post(p_url, data=clean_project)
+        print_response(response, suppressed=True)
 
-        # # Teams
-        # t_url = f"api/teams?project={p_name}"
-        # for team in raw_teams:
-        #     t_name = team["name"]
-        #     print_response(f"Creating team '{t_name}'...")
-        #     response = self.post(t_url, data=team)
-        #     print_response(response, suppressed=True)
+        # Teams
+        t_url = f"api/teams?project={p_name}"
+        for team in raw_teams:
+            t_name = team["name"]
+            print_response(f"Creating team '{t_name}'...")
+            response = self.post(t_url, data=team)
+            print_response(response, suppressed=True)
 
         # Project runs
         pr_url = f"api/projectruns?project={p_name}"
         for projectrun in raw_projectruns:
             pr_name = projectrun["name"]
-            # print_response(f"Creating project run '{pr_name}'...")
-            # response = self.post(pr_url, data=projectrun)
-            # print_response(response, suppressed=True)
+            print_response(f"Creating project run '{pr_name}'...")
+            response = self.post(pr_url, data=projectrun)
+            print_response(response, suppressed=True)
 
             # Add models to project runs
             m_url = f"api/models?project={p_name}&projectrun={pr_name}"
