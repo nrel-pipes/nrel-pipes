@@ -1,10 +1,11 @@
 import json
-import os
+import sys
 import toml
 from abc import ABC
 from typing import Optional
 
 import requests
+from requests.exceptions import ConnectionError
 
 from pipes.auth import get_access_token
 from pipes.config import ClientConfig
@@ -32,7 +33,12 @@ class PipesClientBase:
         return host + "/"
 
     def ping(self):
-        response = self.get("/api/ping")
+        try:
+            response = self.get("/api/ping")
+        except ConnectionError as e:
+            print("Connection Error: Could not connecto to PIPES server. " + str(e))
+            sys.exit(1)
+
         if response.status_code == 200:
             return self.host + " pong"
         else:
@@ -41,19 +47,33 @@ class PipesClientBase:
     def get(self, url, params=None):
         url = self.host + url
         if params:
-            response = requests.get(url, params=params, headers=self.headers)
+            try:
+                return requests.get(url, params=params, headers=self.headers)
+            except ConnectionError as e:
+                print("Connection Error: Could not connecto to PIPES server. " + str(e))
+                sys.exit(1)
         else:
-            response = requests.get(url, headers=self.headers)
-        return response
+            try:
+                return requests.get(url, headers=self.headers)
+            except ConnectionError as e:
+                print("Connection Error: Could not connecto to PIPES server. " + str(e))
+                sys.exit(1)
 
     def post(self, url, data: dict):
         url = self.host + url
-        return requests.post(url, data=json.dumps(data), headers=self.headers)
+        try:
+            return requests.post(url, data=json.dumps(data), headers=self.headers)
+        except ConnectionError as e:
+            print("Connection Error: Could not connecto to PIPES server. " + str(e))
+            sys.exit(1)
 
     def put(self, url, data: dict):
         url = self.host + url
-        return requests.put(url, data=json.dumps(data), headers=self.headers)
-
+        try:
+            return requests.put(url, data=json.dumps(data), headers=self.headers)
+        except ConnectionError as e:
+            print("Connection Error: Could not connecto to PIPES server. " + str(e))
+            sys.exit(1)
 
 
 class PipesClientBase1(ABC):

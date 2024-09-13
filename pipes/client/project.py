@@ -1,5 +1,9 @@
-from .base import PipesClientBase
+import sys
 
+from requests.exceptions import JSONDecodeError
+
+from .base import PipesClientBase
+from pipes.utils import print_response
 
 
 class ProjectClient(PipesClientBase):
@@ -38,34 +42,39 @@ class ProjectClient(PipesClientBase):
             owner=raw_project["owner"],
         )
 
-        p_url = f"api/projects"
-        print(f"Creating project '{p_name}' from template...")
-        self.post(p_url, data=clean_project)
+        # p_url = f"api/projects"
+        # print_response(f"Creating project '{p_name}' from template...")
+        # response = self.post(p_url, data=clean_project)
+        # print_response(response, suppressed=True)
 
-        # Teams
-        t_url = f"api/teams?project={p_name}"
-        for team in raw_teams:
-            t_name = team["name"]
-            print(f"Creating team '{t_name}'...")
-            self.post(t_url, data=team)
+        # # Teams
+        # t_url = f"api/teams?project={p_name}"
+        # for team in raw_teams:
+        #     t_name = team["name"]
+        #     print_response(f"Creating team '{t_name}'...")
+        #     response = self.post(t_url, data=team)
+        #     print_response(response, suppressed=True)
 
         # Project runs
         pr_url = f"api/projectruns?project={p_name}"
         for projectrun in raw_projectruns:
             pr_name = projectrun["name"]
-            print(f"Creating project run '{pr_name}'...")
-            self.post(pr_url, data=projectrun)
+            # print_response(f"Creating project run '{pr_name}'...")
+            # response = self.post(pr_url, data=projectrun)
+            # print_response(response, suppressed=True)
 
             # Add models to project runs
             m_url = f"api/models?project={p_name}&projectrun={pr_name}"
+            print(m_url)
             for raw_model in projectrun["models"]:
                 clean_model = raw_model.copy()
                 clean_model["name"] = raw_model["model"]
                 m_name = clean_model["name"]
-                print(f"Creating model '{m_name}' under project run '{pr_name}'")
+                print_response(f"Creating model '{m_name}' under project run '{pr_name}'")
                 if not clean_model.get("modeling_team", None):
                     clean_model["modeling_team"] = raw_model["model"]
-                self.post(m_url, data=clean_model)
+                response = self.post(m_url, data=clean_model)
+                print_response(response, suppressed=True)
 
             # Create handoff plans
             topology = projectrun["topology"]
@@ -83,8 +92,9 @@ class ProjectClient(PipesClientBase):
                     }
                     handoffs.append(clean_handoff)
             h_url = f"api/handoffs?project={p_name}&projectrun={pr_name}"
-            print(f"Creating handoffs under project run '{pr_name}'...")
-            self.post(h_url, data=handoffs)
+            print_response(f"Creating handoffs under project run '{pr_name}'...")
+            response = self.post(h_url, data=handoffs)
+            print_response(response, suppressed=True)
 
         return {
             "detail": f"Project '{p_name}' created successfully."
