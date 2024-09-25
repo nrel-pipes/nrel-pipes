@@ -2,15 +2,15 @@ import sys
 
 import click
 
-from nrel_pipes.auth import validate_session_token
-from nrel_pipes.cli.login import login
-from nrel_pipes.client import PipesClient
-from nrel_pipes.session import Session
-from nrel_pipes.template import load_template
-from nrel_pipes.utils import print_response
+from pipes.auth import validate_session_token
+from pipes.cli.login import login
+from pipes.client import PipesClient
+from pipes.session import Session
+from pipes.template import load_template
+from pipes.utils import print_response
 
 
-from nrel_pipes.config import ClientConfig
+from pipes.config import ClientConfig
 
 
 @click.group()

@@ -3,9 +3,9 @@ import json
 import requests
 from hero import HeroClient, get_env_variable
 from dotenv import load_dotenv
-from nrel_pipes.client import PipesClient, ProjectClient, ModelRunClient, TaskClient
-from nrel_pipes.auth import get_access_token
-from nrel_pipes.auth import initiate_auth
+from pipes.client import PipesClient, ProjectClient, ModelRunClient, TaskClient
+from pipes.auth import get_access_token
+from pipes.auth import initiate_auth
 
 load_dotenv()
 

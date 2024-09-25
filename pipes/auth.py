@@ -3,9 +3,9 @@ from time import time
 import boto3
 import jwt
 
-from nrel_pipes.config import ClientConfig
-from nrel_pipes.exception import InvalidToken
-from nrel_pipes.session import Session
+from pipes.config import ClientConfig
+from pipes.exception import InvalidToken
+from pipes.session import Session
 
 
 cognito_idp = boto3.client("cognito-idp", region_name="us-west-2")
