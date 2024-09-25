@@ -1,12 +1,12 @@
 import click
 
-from pipes.cli.login import login
-from pipes.auth import validate_session_token
-from pipes.session import Session
+from nrel_pipes.cli.login import login
+from nrel_pipes.auth import validate_session_token
+from nrel_pipes.session import Session
 
-from pipes.template import load_template
-from pipes.client import PipesClient
-from pipes.utils import print_response
+from nrel_pipes.template import load_template
+from nrel_pipes.client import PipesClient
+from nrel_pipes.utils import print_response
 
 
 @click.group()

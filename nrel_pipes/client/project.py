@@ -3,7 +3,7 @@ import sys
 from requests.exceptions import JSONDecodeError
 
 from .base import PipesClientBase
-from pipes.utils import print_response
+from nrel_pipes.utils import print_response
 
 
 class ProjectClient(PipesClientBase):

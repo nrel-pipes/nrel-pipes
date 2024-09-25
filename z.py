@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
-from pipes.auth import initiate_auth
-from pipes.sdk import PIPES
+from nrel_pipes.auth import initiate_auth
+from nrel_pipes.sdk import PIPES
 
 load_dotenv()
 
