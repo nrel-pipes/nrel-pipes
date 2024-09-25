@@ -59,7 +59,6 @@ if __name__=="__main__":
   # queue = pipes.read_hero_task()
   # print(len(queue))
   # print(pipes.read_hero_queue())
-  for i in range(100):
-    print(pipes.pull_hero_task())  
+  print(pipes.pull_hero_task())  
   # queue = pipes.read_hero_task()
   # print(len(queue))

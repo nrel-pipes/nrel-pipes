@@ -11,7 +11,6 @@ load_dotenv()
 
 class PIPES(object):
     def __init__(self):
-        # These Environemntal variables would mainly exist on Lambda
         if os.environ.get("LAMBDA_TASK_ROOT") and os.environ.get("AWS_LAMBDA_RUNTIME_API") and not os.environ.get("TOKEN"):
             self.token = initiate_auth(os.environ.get("USERNAME"), os.environ.get("PASSWORD"))
         elif os.environ.get("LAMBDA_TASK_ROOT") and os.environ.get("AWS_LAMBDA_RUNTIME_API"):
@@ -60,4 +59,3 @@ class PIPES(object):
 
     def read_hero_queue(self):
         return self.task_engine.read_queue(self.hero_queue_id)
-    
