@@ -26,7 +26,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'nrel_pipes=wrapper:main',
+            'pipes=wrapper:main',
         ],
     },
 )
