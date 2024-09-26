@@ -32,6 +32,8 @@ class PipesClientBase:
 
     @property
     def host(self):
+        if os.environ.get("LAMBDA_TASK_ROOT") and os.environ.get("AWS_LAMBDA_RUNTIME_API"):
+            return os.environ.get("PIPES_URL")
         config = ClientConfig()
         host = str(config.pipes_server)
         if host.endswith("/"):
