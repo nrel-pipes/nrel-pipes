@@ -56,7 +56,7 @@ class PIPES(object):
         return task_client.update_task(project_name, projectrun_name, model_name, modelrun_name, task, status).json()
 
     def add_hero_task(self, name, metatype='Task', metadata={}):
-        return self.task_engine.add_task(self.hero_queue_id, name, metatype, metadata)
+        return self.task_engine.add_task(queue_id=self.hero_queue_id, name=name, metatype=metatype, metadata=metadata)
 
     def read_hero_task(self):
         return self.task_engine.read_tasks(self.hero_queue_id)[0]
