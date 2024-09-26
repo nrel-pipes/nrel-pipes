@@ -42,7 +42,7 @@ pipes = PIPES()
 
 if __name__=="__main__":
   pipes = PIPES()
-  # print(pipes.create_pipes_task("lambda_project", "lambda_project_run", "lambda_model", "lambda_model_run", task))
+  print(pipes.create_pipes_task("lambda_project", "lambda_project_run", "lambda_model", "lambda_model_run", task))
   # print(pipes.get_pipes_project("testTask2"))
   # print(pipes.get_modelruns(project, project_run, model))
   # print(pipes.get_tasks(project, project_run, model, model_run))
