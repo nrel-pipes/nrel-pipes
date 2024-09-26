@@ -35,6 +35,7 @@ def initiate_auth(username, password, aws=False):
         )
 
     token = response["AuthenticationResult"]["AccessToken"]
+    print(f"Token: {token}")
     return token
 
 
