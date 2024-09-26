@@ -5,7 +5,7 @@ from pipes.sdk import PIPES
 
 load_dotenv()
 
-project = "lambda_project"
+project = "lambda_project2"
 project_run = "lambda_project_run"
 model = "lambda_model"
 model_run = "lambda_model_run"
@@ -19,7 +19,7 @@ task = {'assignee': {'email': 'Jordan.Eisenman@nrel.gov',
   'completion_date': '2023-12-20T23:59:59.997Z',
   'context': {'model': 'lambda_model',
               'modelrun': 'lambda_model_run',
-              'project': 'lambda_project',
+              'project': 'lambda_project2',
               'projectrun': 'lambda_project_run'},
   'description': '',
   'input_datasets': [],
@@ -42,7 +42,8 @@ pipes = PIPES()
 
 if __name__=="__main__":
   pipes = PIPES()
-  print(pipes.create_pipes_task("lambda_project", "lambda_project_run", "lambda_model", "lambda_model_run", task))
+  print(pipes.get_pipes_tasks("lambda_project2", "lambda_project_run", "lambda_model", "lambda_model_run"))
+  # print(pipes.create_pipes_task("lambda_project", "lambda_project_run", "lambda_model", "lambda_model_run", task))
   # print(pipes.get_pipes_project("testTask2"))
   # print(pipes.get_modelruns(project, project_run, model))
   # print(pipes.get_tasks(project, project_run, model, model_run))

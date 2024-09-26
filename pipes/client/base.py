@@ -1,4 +1,4 @@
-import json
+import os
 import sys
 import toml
 from abc import ABC
@@ -10,6 +10,7 @@ from requests.exceptions import ConnectionError
 from pipes.auth import get_access_token
 from pipes.config import  ClientConfig
 from pipes.session import Session
+from pipes.auth import initiate_auth
 
 
 class PipesClientBase:
@@ -22,6 +23,8 @@ class PipesClientBase:
 
     @property
     def token(self):
+        if os.environ.get("LAMBDA_TASK_ROOT") and os.environ.get("AWS_LAMBDA_RUNTIME_API"):
+            return initiate_auth(os.environ.get("USERNAME"), os.environ.get("PASSWORD"))
         return Session().data.get('token', None)
 
     @property
