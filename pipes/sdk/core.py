@@ -10,12 +10,21 @@ from pipes.auth import initiate_auth
 load_dotenv()
 
 class PIPES(object):
+    """
+    If local: 
+        - Use use code to grab token from .pipes session
+    """
     def __init__(self):
+        print(f"TOKEN {os.environ.get("LAMBDA_TASK_ROOT")}")
         if os.environ.get("LAMBDA_TASK_ROOT") and os.environ.get("AWS_LAMBDA_RUNTIME_API") and not os.environ.get("TOKEN"):
-            self.token = initiate_auth(os.environ.get("USERNAME"), os.environ.get("PASSWORD"))
+            username, password = os.environ.get("USERNAME"), os.environ.get("PASSWORD")
+            print(username, password)
+            self.token = initiate_auth(username, password)
         elif os.environ.get("LAMBDA_TASK_ROOT") and os.environ.get("AWS_LAMBDA_RUNTIME_API"):
+            print("Here")
             self.token = os.environ.get("TOKEN")
         else:
+            print("here2")
             self.token = get_access_token()
         self.host = os.environ.get("PIPES_URL")
         self.hero_env = get_env_variable('HERO_PROJECT', 'dev')
