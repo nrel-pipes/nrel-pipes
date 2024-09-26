@@ -18,7 +18,7 @@ class PIPES(object):
         else:
             self.token = get_access_token()
         self.host = os.environ.get("PIPES_URL")
-        self.hero_env = get_env_variable('HERO_ENV', 'dev')
+        self.hero_env = get_env_variable('HERO_PROJECT', 'dev')
         self.hero_project = get_env_variable('HERO_PROJECT', "nrel-kg")
         self.application_id = f'{self.hero_env}-{self.hero_project}'
         self.hero_queue_id= os.environ.get("HERO_QUEUE_ID")

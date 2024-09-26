@@ -8,7 +8,7 @@ import requests
 from requests.exceptions import ConnectionError
 
 from pipes.auth import get_access_token
-from pipes.config import ClientConfig
+from pipes.config import  ClientConfig
 from pipes.session import Session
 
 
