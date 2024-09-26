@@ -25,6 +25,7 @@ def initiate_auth(username, password, aws=False):
             ClientId=config.pipes_cognito,
         )
     else:
+        print("Lethal combo: ", username, password)
         response = cognito_idp.initiate_auth(
             AuthFlow="USER_PASSWORD_AUTH",
             AuthParameters={
