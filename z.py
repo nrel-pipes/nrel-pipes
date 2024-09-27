@@ -65,7 +65,10 @@ if __name__=="__main__":
   # print(pipes.create_pipes_task(project, project_run, model, model_run, sample_task))
   # print(pipes.update_task(project, project_run, model, model_run, task, status))
   hero_task = pipes.add_hero_task("name", metadata={"Stuff": "Stuffs"})
-  hero_task_id = hero_task["id"]
-  print("Hero Task ID ", hero_task_id)
-  print(pipes.pull_hero_task_metadata(hero_task_id))
+  # hero_task_id = hero_task["id"]
+  # print("Hero Task ID ", hero_task_id)
+  # print(pipes.pull_hero_task_metadata(hero_task_id))
   # print(hero_task)
+  print(hero_task)
+  hero_task = pipes.pull_hero_task("22072000-8b96-4d8c-b253-b0e0d67a4e64")
+  print(hero_task)
