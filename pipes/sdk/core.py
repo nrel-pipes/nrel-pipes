@@ -59,13 +59,11 @@ class PIPES(object):
     def add_hero_task(self, name, metatype='Task', metadata={}):
         return self.task_engine.add_task(queue_id=self.hero_queue_id, name=name, metatype=metatype, metadata=metadata)
 
-    def read_hero_task(self):
-        return self.task_engine.read_tasks(self.hero_queue_id)[0]
+    def read_hero_task(self, task_id):
+        return self.task_engine.read_task(self.hero_queue_id, task_id)
 
-    def pull_hero_task(self):
-        task_engine = self.task_engine
-        task_engine._
-        task_id = self.task_engine.read_tasks(self.hero_queue_id)[0]['id']
+    def pull_hero_task(self, task_id):
+        task_id = self.task_engine.read_task(task_id)['id']
         return self.task_engine.delete_task(task_id)
 
     def read_hero_queue(self):
