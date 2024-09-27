@@ -1,14 +1,18 @@
+from typing import Optional, Dict, Any, List
 from .base import PipesClientBase
 
 class TaskClient(PipesClientBase):
     def get_tasks(self, project=None, projectrun=None, model=None, modelrun=None):
         return self.get("api/tasks", params={"project": project, "projectrun": projectrun, "model": model, "modelrun": modelrun})
     
-    def get_task(self, task_name, project=None, projectrun=None, model=None, modelrun=None):
-        tasks = self.get_tasks(project, projectrun, model, modelrun)
-        for task in tasks:
-            if task['name'] == task_name:
-                return task
+    def get_task(self, task_name: str, project: Optional[str] = None, projectrun: Optional[str] = None, 
+                 model: Optional[str] = None, modelrun: Optional[str] = None) -> Optional[Dict[str, Any]]:
+        response = self.get_tasks(project, projectrun, model, modelrun)
+        if response.status_code == 200:
+            tasks = response.json()
+            for task in tasks:
+                if task['name'] == task_name:
+                    return task
         return None 
 
     def create_task(self, project, projectrun, model, modelrun, task_data):
