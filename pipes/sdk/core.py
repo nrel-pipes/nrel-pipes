@@ -26,12 +26,13 @@ class PIPES(object):
         else:
             self.token = get_access_token()
         self.host = os.environ.get("PIPES_URL")
-        self.hero_env = os.environ.get('HERO_PROJECT', 'dev')
-        self.hero_project = os.environ.get('HERO_PROJECT', "nrel-kg")
+        self.hero_env = os.environ.get('HERO_ENV', 'dev')
+        self.hero_project = os.environ.get('HERO_PROJECT')
         self.application_id = f'{self.hero_env}-{self.hero_project}'
         self.hero_queue_id= os.environ.get("HERO_QUEUE_ID")
         self.hero = HeroClient()
         self.hero.authenticate()
+        print(self.hero_queue_id)
         self.task_engine = self.hero.TaskEngine(self.application_id)
 
     def get_pipes_pipes_project(self, project):
@@ -62,6 +63,8 @@ class PIPES(object):
         return self.task_engine.read_tasks(self.hero_queue_id)[0]
 
     def pull_hero_task(self):
+        task_engine = self.task_engine
+        task_engine._
         task_id = self.task_engine.read_tasks(self.hero_queue_id)[0]['id']
         return self.task_engine.delete_task(task_id)
 

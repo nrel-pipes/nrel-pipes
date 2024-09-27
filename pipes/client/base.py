@@ -24,9 +24,7 @@ class PipesClientBase:
     @property
     def token(self):
         if os.environ.get("LAMBDA_TASK_ROOT") and os.environ.get("AWS_LAMBDA_RUNTIME_API"):
-            print("Initialized for cloud deploy")
             token = initiate_auth(os.environ.get("USERNAME"), os.environ.get("PASSWORD"), aws=True)
-            print(f"Precious token: {token}")
             return token
         return Session().data.get('token', None)
 
