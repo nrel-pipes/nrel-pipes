@@ -70,5 +70,5 @@ if __name__=="__main__":
   # print(pipes.pull_hero_task_metadata(hero_task_id))
   # print(hero_task)
   print(hero_task)
-  hero_task = pipes.pull_hero_task("22072000-8b96-4d8c-b253-b0e0d67a4e64")
+  pipes.get_pipes_task(project, project_run, model, model_run, task)
   print(hero_task)

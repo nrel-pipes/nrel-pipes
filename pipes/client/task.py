@@ -9,7 +9,7 @@ class TaskClient(PipesClientBase):
         for task in tasks:
             if task['name'] == task_name:
                 return task
-        return None  # Return None if the task is not found
+        return None 
 
     def create_task(self, project, projectrun, model, modelrun, task_data):
         url = "api/tasks"

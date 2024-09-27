@@ -59,7 +59,7 @@ class PIPES(object):
     
     def get_pipes_task(self, project_name: str, projectrun_name: str, model_name: str, modelrun_name: str, task: str) -> requests.Response:
         task_client = TaskClient()
-        return task_client.get_tasks(project_name, projectrun_name, model_name, modelrun_name, task)
+        return task_client.get_tasks(project_name, projectrun_name, model_name, modelrun_name)
 
     def add_hero_task(self, name: str, metatype: str = 'Task', metadata: Dict[str, Any] = {}) -> Dict[str, Any]:
         return self.task_engine.add_task(queue_id=self.hero_queue_id, name=name, metatype=metatype, metadata=metadata)
