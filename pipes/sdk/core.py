@@ -1,7 +1,7 @@
 import os
 import json
 import requests
-from hero import HeroClient, get_env_variable
+from hero import HeroClient
 from dotenv import load_dotenv
 from pipes.client import PipesClient, ProjectClient, ModelRunClient, TaskClient
 from pipes.auth import get_access_token
@@ -26,8 +26,8 @@ class PIPES(object):
         else:
             self.token = get_access_token()
         self.host = os.environ.get("PIPES_URL")
-        self.hero_env = get_env_variable('HERO_PROJECT', 'dev')
-        self.hero_project = get_env_variable('HERO_PROJECT', "nrel-kg")
+        self.hero_env = os.environ.get('HERO_PROJECT', 'dev')
+        self.hero_project = os.environ.get('HERO_PROJECT', "nrel-kg")
         self.application_id = f'{self.hero_env}-{self.hero_project}'
         self.hero_queue_id= os.environ.get("HERO_QUEUE_ID")
         self.hero = HeroClient()

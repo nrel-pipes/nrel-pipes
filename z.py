@@ -49,7 +49,7 @@ if __name__=="__main__":
   # print(pipes.get_tasks(project, project_run, model, model_run))
   # print(pipes.create_pipes_task(project, project_run, model, model_run, sample_task))
   # print(pipes.update_task(project, project_run, model, model_run, task, status))
-  # print(pipes.add_task("name", {"Stuff": "Stuff"}))
+  print(pipes.add_hero_task("name", {"Stuff": "Stuff"}))
   # queue = pipes.read_hero_task()
   # print(len(queue))
   # print(pipes.read_hero_queue())
