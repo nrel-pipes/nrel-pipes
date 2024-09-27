@@ -57,7 +57,11 @@ class PIPES(object):
         task_client = TaskClient()
         return task_client.update_task(project_name, projectrun_name, model_name, modelrun_name, task, status)
     
-    def get_pipes_task(self, project_name: str, projectrun_name: str, model_name: str, modelrun_name: str, task: str) -> requests.Response:
+    def get_pipes_tasks(self, project_name: str, projectrun_name: str, model_name: str, modelrun_name: str) -> requests.Response:
+        task_client = TaskClient()
+        return task_client.get_tasks(project_name, projectrun_name, model_name, modelrun_name)
+
+    def get_pipes_task(self, project_name: str, projectrun_name: str, model_name: str, modelrun_name: str, task: str) -> Dict:
         task_client = TaskClient()
         return task_client.get_task(project_name, projectrun_name, model_name, modelrun_name, task)
 

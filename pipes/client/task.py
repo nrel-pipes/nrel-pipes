@@ -5,8 +5,7 @@ class TaskClient(PipesClientBase):
     def get_tasks(self, project=None, projectrun=None, model=None, modelrun=None):
         return self.get("api/tasks", params={"project": project, "projectrun": projectrun, "model": model, "modelrun": modelrun})
     
-    def get_task(self, task_name: str, project: Optional[str] = None, projectrun: Optional[str] = None, 
-                 model: Optional[str] = None, modelrun: Optional[str] = None) -> Optional[Dict[str, Any]]:
+    def get_task(self, project: str, projectrun: str, model: str, modelrun: str, task_name: str) -> Optional[Dict[str, Any]]:
         response = self.get_tasks(project, projectrun, model, modelrun)
         if response.status_code == 200:
             tasks = response.json()

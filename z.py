@@ -70,4 +70,5 @@ if __name__=="__main__":
   # print(pipes.pull_hero_task_metadata(hero_task_id))
   # print(hero_task)
   # print(hero_task)
-  pipes.get_pipes_task("lambda_project2", "lambda_project_run", "lambda_model", "lambda_model_run", "lambda_task_edfdedwf")
+  # print(pipes.get_pipes_tasks("lambda_project2", "lambda_project_run", "lambda_model", "lambda_model_run").json())
+  print(pipes.get_pipes_task("lambda_project2", "lambda_project_run", "lambda_model", "lambda_model_run", "lambda_task_edfdedwf"))
