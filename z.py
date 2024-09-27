@@ -67,5 +67,5 @@ if __name__=="__main__":
   hero_task = pipes.add_hero_task("name", metadata={"Stuff": "Stuffs"})
   hero_task_id = hero_task["id"]
   print("Hero Task ID ", hero_task_id)
-  print(pipes.pull_hero_task(hero_task_id))
+  print(pipes.pull_hero_task_metadata(hero_task_id))
   # print(hero_task)
