@@ -12,7 +12,7 @@ $ python -m venv .venv
 Install the Pipes package,
 
 ```bash
-$ pip install git+https://github.com/nrel-pipes/nrel-pipes@master#egg=nrel_pipes
+$ pip install git+https://github.com/nrel-pipes/nrel-pipes@master#egg=pipes
 ```
 
 

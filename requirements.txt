@@ -7,3 +7,4 @@ pydantic[email]==2.8.2
 pydantic-settings==2.4.0
 pyjwt==2.9.0
 questionary==2.0.1
+hero @ git+https://github.nrel.gov/Hero/hero@0.3.1

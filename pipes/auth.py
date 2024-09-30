@@ -1,3 +1,4 @@
+import os
 from time import time
 
 import boto3
@@ -11,17 +12,28 @@ from pipes.session import Session
 cognito_idp = boto3.client("cognito-idp", region_name="us-west-2")
 
 
-def initiate_auth(username, password):
+def initiate_auth(username, password, aws=False):
     """Get Cognit access token for Bearer authentication"""
-    config = ClientConfig()
-    response = cognito_idp.initiate_auth(
-        AuthFlow="USER_PASSWORD_AUTH",
-        AuthParameters={
-            "USERNAME": username,
-            "PASSWORD": password,
-        },
-        ClientId=config.pipes_cognito,
-    )
+    if not aws:
+        config = ClientConfig()
+        response = cognito_idp.initiate_auth(
+            AuthFlow="USER_PASSWORD_AUTH",
+            AuthParameters={
+                "USERNAME": username,
+                "PASSWORD": password,
+            },
+            ClientId=config.pipes_cognito,
+        )
+    else:
+        response = cognito_idp.initiate_auth(
+            AuthFlow="USER_PASSWORD_AUTH",
+            AuthParameters={
+                "USERNAME": username,
+                "PASSWORD": password,
+            },
+            ClientId=os.environ.get("PIPES_COGNITO_CLIENT_ID"),
+        )
+
     token = response["AuthenticationResult"]["AccessToken"]
     return token
 

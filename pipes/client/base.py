@@ -1,4 +1,4 @@
-import json
+import os
 import sys
 import toml
 from abc import ABC
@@ -8,8 +8,9 @@ import requests
 from requests.exceptions import ConnectionError
 
 from pipes.auth import get_access_token
-from pipes.config import ClientConfig
+from pipes.config import  ClientConfig
 from pipes.session import Session
+from pipes.auth import initiate_auth
 
 
 class PipesClientBase:
@@ -22,10 +23,15 @@ class PipesClientBase:
 
     @property
     def token(self):
+        if os.environ.get("LAMBDA_TASK_ROOT") and os.environ.get("AWS_LAMBDA_RUNTIME_API"):
+            token = initiate_auth(os.environ.get("USERNAME"), os.environ.get("PASSWORD"), aws=True)
+            return token
         return Session().data.get('token', None)
 
     @property
     def host(self):
+        if os.environ.get("LAMBDA_TASK_ROOT") and os.environ.get("AWS_LAMBDA_RUNTIME_API"):
+            return os.environ.get("PIPES_URL")
         config = ClientConfig()
         host = str(config.pipes_server)
         if host.endswith("/"):
@@ -59,23 +65,28 @@ class PipesClientBase:
                 print("Connection Error: Could not connecto to PIPES server. " + str(e))
                 sys.exit(1)
 
-    def post(self, url, data: dict):
+    def post(self, url, data: dict, params=None):
+        url = self.host + url 
+        if params:
+            try:
+                return requests.post(url, json=data, params=params, headers=self.headers)
+            except ConnectionError as e:
+                print("Connection Error: Could not connect to PIPES server. " + str(e))
+                sys.exit(1)
+        else:
+            try:
+                return requests.post(url, json=data, headers=self.headers)
+            except ConnectionError as e:
+                print("Connection Error: Could not connect to PIPES server. " + str(e))
+                sys.exit(1)
+
+    def patch(self, url, params=None):
         url = self.host + url
         try:
-            return requests.post(url, data=json.dumps(data), headers=self.headers)
+            return requests.patch(url, params=params, headers=self.headers)
         except ConnectionError as e:
-            print("Connection Error: Could not connecto to PIPES server. " + str(e))
+            print("Connection Error: Could not connect to PIPES server. " + str(e))
             sys.exit(1)
-
-    def put(self, url, data: dict):
-        url = self.host + url
-        try:
-            return requests.put(url, data=json.dumps(data), headers=self.headers)
-        except ConnectionError as e:
-            print("Connection Error: Could not connecto to PIPES server. " + str(e))
-            sys.exit(1)
-
-
 class PipesClientBase1(ABC):
     def __init__(
             self,
@@ -106,22 +117,6 @@ class PipesClientBase1(ABC):
         self.modelrun = modelrun
         self.datasets = datasets
         self.teams = teams
-
-    def validate(self, ctx):
-        """This method validates the client ensuring that it has a valid token and URL."""
-        token = get_access_token()
-        if not token or not validate_access_token(token) or not validate_access_token(self.token):
-            print("You have not properly logged in or token has expired. You must now input your credentials.")
-            print(validate_access_token(token))
-            self.token = get_access_token()
-            self.pipes_login = True
-        if self.url is None:
-            print("You have not provided a URL. You must now configure your server.")
-            self.pipes_login = True
-            settings = ClientConfig()
-            self.url = settings.get_server()
-            print("Re-obtained pipes server")
-        return self
 
     def read_toml(self, file):
         with open(file, "r") as template:
