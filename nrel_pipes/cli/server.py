@@ -3,9 +3,9 @@ import sys
 import click
 import questionary
 
-from pipes.utils import print_response
-from pipes.config import ClientConfig, PIPES_CONFIG_DATA
-from pipes.client.base import PipesClientBase
+from nrel_pipes.utils import print_response
+from nrel_pipes.config import ClientConfig, PIPES_CONFIG_DATA
+from nrel_pipes.client.base import PipesClientBase
 
 
 @click.group()

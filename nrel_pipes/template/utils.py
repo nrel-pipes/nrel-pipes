@@ -5,8 +5,8 @@ import sys
 
 import toml
 
-from pipes.utils import print_response
-from pipes.template import TEMPLATE_FILES
+from nrel_pipes.utils import print_response
+from nrel_pipes.template import TEMPLATE_FILES
 
 
 def copy_template(typename, filename, subtype=None):

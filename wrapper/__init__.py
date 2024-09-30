@@ -10,5 +10,5 @@ pipes = importlib.util.module_from_spec(spec)
 sys.modules['pipes'] = pipes
 spec.loader.exec_module(pipes)
 
-from pipes.cli.main import main
+from nrel_pipes.cli.main import main
 main()

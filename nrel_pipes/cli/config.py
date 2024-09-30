@@ -2,10 +2,10 @@ import shutil
 
 import click
 
-from pipes.utils import print_response
-from pipes.config import ClientConfig
+from nrel_pipes.utils import print_response
+from nrel_pipes.config import ClientConfig
 
-from pipes.config import PIPES_CONFIG_DIR, PIPES_CONFIG_FILE, PIPES_CONFIG_FILE_DEFAULT
+from nrel_pipes.config import PIPES_CONFIG_DIR, PIPES_CONFIG_FILE, PIPES_CONFIG_FILE_DEFAULT
 
 
 @click.group()

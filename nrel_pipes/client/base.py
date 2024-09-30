@@ -7,10 +7,10 @@ from typing import Optional
 import requests
 from requests.exceptions import ConnectionError
 
-from pipes.auth import get_access_token
-from pipes.config import  ClientConfig
-from pipes.session import Session
-from pipes.auth import initiate_auth
+from nrel_pipes.auth import get_access_token
+from nrel_pipes.config import  ClientConfig
+from nrel_pipes.session import Session
+from nrel_pipes.auth import initiate_auth
 
 
 class PipesClientBase:

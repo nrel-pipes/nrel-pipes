@@ -3,7 +3,7 @@ import os
 from abc import ABC, abstractmethod
 from pathlib import Path
 
-from pipes.config.config import PIPES_CONFIG_DIR
+from nrel_pipes.config.config import PIPES_CONFIG_DIR
 
 
 class AbstractSessionManager(ABC):
