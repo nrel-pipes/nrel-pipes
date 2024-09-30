@@ -4,19 +4,19 @@ import sys
 
 import click
 
-from nrel_pipes.utils import prompt_overwrite, print_response
+from pipes.utils import prompt_overwrite, print_response
 
-from nrel_pipes.template import copy_template, load_template
+from pipes.template import copy_template, load_template
 
 import click
 
-from nrel_pipes.cli.login import login
-from nrel_pipes.auth import validate_session_token
-from nrel_pipes.session import Session
+from pipes.cli.login import login
+from pipes.auth import validate_session_token
+from pipes.session import Session
 
-from nrel_pipes.template import load_template
-from nrel_pipes.client import PipesClient
-from nrel_pipes.utils import print_response
+from pipes.template import load_template
+from pipes.client import PipesClient
+from pipes.utils import print_response
 
 
 @click.group()

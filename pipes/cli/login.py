@@ -3,10 +3,10 @@ import sys
 
 import questionary
 
-from nrel_pipes.auth import initiate_auth
-from nrel_pipes.config import ClientConfig
-from nrel_pipes.session import Session
-from nrel_pipes.utils import validate_email_input
+from pipes.auth import initiate_auth
+from pipes.config import ClientConfig
+from pipes.session import Session
+from pipes.utils import validate_email_input
 
 
 MAX_PROMPT = 3

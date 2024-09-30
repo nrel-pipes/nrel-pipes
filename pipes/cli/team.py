@@ -2,11 +2,11 @@ import click
 import os
 import sys
 
-from nrel_pipes.cli.login import login
-from nrel_pipes.auth import validate_session_token
-from nrel_pipes.client import PipesClient
-from nrel_pipes.template import load_template, copy_template, dump_template
-from nrel_pipes.utils import print_response, prompt_overwrite
+from pipes.cli.login import login
+from pipes.auth import validate_session_token
+from pipes.client import PipesClient
+from pipes.template import load_template, copy_template, dump_template
+from pipes.utils import print_response, prompt_overwrite
 
 
 @click.group()

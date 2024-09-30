@@ -12,7 +12,7 @@ setup(
     version=__version__,
     author="NREL",
     author_email="janisl.gu@nrel.gov, jordan.eisenman@nrel.gov",
-    packages=find_namespace_packages(include=["nrel_pipes", "nrel_pipes.*", "wrapper", "wrapper.*"]),
+    packages=find_namespace_packages(include=["pipes", "pipes.*", "wrapper", "wrapper.*"]),
     python_requires=">=3.8.0",
     url="https://github.com/nrel-pipes/nrel-pipes",
     install_requires=read_requirements(),
