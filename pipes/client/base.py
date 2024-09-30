@@ -52,7 +52,6 @@ class PipesClientBase:
 
     def get(self, url, params=None):
         url = self.host + url
-        print(f"URL: {url}, self.headers: {self.headers}")
         if params:
             try:
                 return requests.get(url, params=params, headers=self.headers)
