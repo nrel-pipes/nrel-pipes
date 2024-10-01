@@ -6,7 +6,7 @@ from hero import HeroClient
 from dotenv import load_dotenv
 from pipes.client import PipesClient, ProjectClient, ModelRunClient, TaskClient
 from pipes.auth import get_access_token
-from pipes.auth import initiate_auth
+from pipes.auth import initiate_auth, cloud_auth
 
 load_dotenv()
 
@@ -21,7 +21,7 @@ class PIPES(object):
         """
         if os.environ.get("LAMBDA_TASK_ROOT") and os.environ.get("AWS_LAMBDA_RUNTIME_API") and not os.environ.get("TOKEN"):
             username, password, client_id = os.environ.get("USERNAME"), os.environ.get("PASSWORD"), os.environ.get("PIPES_COGNITO_CLIENT_ID")
-            self.token = initiate_auth(username, password, aws=True)
+            self.token = cloud_auth()
         elif os.environ.get("LAMBDA_TASK_ROOT") and os.environ.get("AWS_LAMBDA_RUNTIME_API"):
             self.token = os.environ.get("TOKEN")
         else:
