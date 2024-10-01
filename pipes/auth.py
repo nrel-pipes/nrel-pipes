@@ -3,9 +3,7 @@ import os
 import jwt
 import boto3
 from botocore.exceptions import NoCredentialsError, ClientError
-import logging
 from pipes.config import ClientConfig
-from pipes.exception import InvalidToken
 from pipes.session import Session
 
 

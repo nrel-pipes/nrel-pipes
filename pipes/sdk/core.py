@@ -22,8 +22,8 @@ class PIPES(object):
         if os.environ.get("LAMBDA_TASK_ROOT") and os.environ.get("AWS_LAMBDA_RUNTIME_API") and not os.environ.get("TOKEN"):
             username, password, client_id = os.environ.get("USERNAME"), os.environ.get("PASSWORD"), os.environ.get("PIPES_COGNITO_CLIENT_ID")
             self.token = cloud_auth()
-        elif os.environ.get("LAMBDA_TASK_ROOT") and os.environ.get("AWS_LAMBDA_RUNTIME_API"):
-            self.token = os.environ.get("TOKEN")
+        elif os.environ.get("USERNAME") and os.environ.get("PASSWORD"):
+            self.token = initiate_auth(os.environ.get("USERNAME"), os.environ.get("PASSWORD"))
         else:
             self.token = get_access_token()
         self.host = os.environ.get("PIPES_URL")
