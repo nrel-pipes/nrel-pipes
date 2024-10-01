@@ -1,11 +1,16 @@
+import time
 import os
+import jwt
 import boto3
 from botocore.exceptions import NoCredentialsError, ClientError
 import logging
+from pipes.config import ClientConfig
+from pipes.exception import InvalidToken
+from pipes.session import Session
 
-# Configure logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+
+cognito_idp = boto3.client("cognito-idp", region_name="us-west-2")
+
 
 def create_boto3_session():
     """Create a boto3 session with credentials from environment variables or default credential chain."""
@@ -16,7 +21,7 @@ def create_boto3_session():
         aws_region = os.environ.get('AWS_REGION', 'us-west-2')
 
         if aws_access_key_id and aws_secret_access_key:
-            logger.info("Creating boto3 session with explicit AWS credentials from environment variables.")
+            print("Creating boto3 session with explicit AWS credentials from environment variables.")
             session = boto3.Session(
                 aws_access_key_id=aws_access_key_id,
                 aws_secret_access_key=aws_secret_access_key,
@@ -24,11 +29,11 @@ def create_boto3_session():
                 region_name=aws_region
             )
         else:
-            logger.info("Creating boto3 session using default AWS credential chain.")
+            print("Creating boto3 session using default AWS credential chain.")
             session = boto3.Session(region_name=aws_region)
         return session
     except Exception as e:
-        logger.error(f"Failed to create boto3 session: {e}")
+        print(f"Failed to create boto3 session: {e}")
         raise
 
 def get_ssm_parameter(parameter_name):
@@ -37,13 +42,13 @@ def get_ssm_parameter(parameter_name):
         session = create_boto3_session()
         ssm_client = session.client('ssm')
         response = ssm_client.get_parameter(Name=parameter_name, WithDecryption=True)
-        logger.info(f"Successfully retrieved parameter: {parameter_name}")
+        print(f"Successfully retrieved parameter: {parameter_name}")
         return response['Parameter']['Value']
     except NoCredentialsError:
-        logger.error("No valid AWS credentials found.")
+        print("No valid AWS credentials found.")
         return None
     except ClientError as e:
-        logger.error(f"An error occurred while fetching the SSM parameter: {e}")
+        print(f"An error occurred while fetching the SSM parameter: {e}")
         return None
 
 def validate_token(token):
@@ -52,13 +57,13 @@ def validate_token(token):
         session = create_boto3_session()
         cognito_client = session.client('cognito-idp')
         cognito_client.get_user(AccessToken=token)
-        logger.info("Token is valid.")
+        print("Token is valid.")
         return True
     except cognito_client.exceptions.NotAuthorizedException as e:
-        logger.error(f"Token validation failed: {e}")
+        print(f"Token validation failed: {e}")
         return False
     except ClientError as e:
-        logger.error(f"An error occurred while validating the token: {e}")
+        print(f"An error occurred while validating the token: {e}")
         return False
 
 def refresh_access_token(client_id, refresh_token):
@@ -72,13 +77,13 @@ def refresh_access_token(client_id, refresh_token):
             ClientId=client_id
         )
         new_access_token = response['AuthenticationResult']['AccessToken']
-        logger.info("Successfully refreshed the access token.")
+        print("Successfully refreshed the access token.")
         return new_access_token
     except cognito_client.exceptions.NotAuthorizedException as e:
-        logger.error(f"Refresh token authentication failed: {e}")
+        print(f"Refresh token authentication failed: {e}")
         return None
     except ClientError as e:
-        logger.error(f"An error occurred while refreshing the token: {e}")
+        print(f"An error occurred while refreshing the token: {e}")
         return None
 
 def store_token_in_ssm(parameter_name, token):
@@ -92,9 +97,9 @@ def store_token_in_ssm(parameter_name, token):
             Type='SecureString',
             Overwrite=True
         )
-        logger.info(f"Successfully stored the token in SSM under {parameter_name}.")
+        print(f"Successfully stored the token in SSM under {parameter_name}.")
     except ClientError as e:
-        logger.error(f"An error occurred while storing the token in SSM: {e}")
+        print(f"An error occurred while storing the token in SSM: {e}")
         raise
 
 def cloud_auth():
@@ -102,26 +107,26 @@ def cloud_auth():
     refresh_token_param_name = '/nrel/pipes-hero/dev/REFRESH_TOKEN'
     client_id = os.environ.get("COGNITO_CLIENT_ID")
 
-    logger.info("Starting token management process...")
+    print("Starting token management process...")
 
     if not client_id:
-        logger.error("Error: COGNITO_CLIENT_ID environment variable is not set.")
+        print("Error: COGNITO_CLIENT_ID environment variable is not set.")
         return
 
     # Step 1: Get the access token from SSM
     access_token = get_ssm_parameter(token_param_name)
     if not access_token:
-        logger.error("Failed to retrieve access token from SSM.")
+        print("Failed to retrieve access token from SSM.")
         return
 
     # Step 2: Validate the access token
     if not validate_token(access_token):
-        logger.info("Access token is invalid. Attempting to refresh it.")
+        print("Access token is invalid. Attempting to refresh it.")
 
         # Step 3: Get the refresh token from SSM
         refresh_token = get_ssm_parameter(refresh_token_param_name)
         if not refresh_token:
-            logger.error("Failed to retrieve refresh token from SSM.")
+            print("Failed to retrieve refresh token from SSM.")
             return
 
         # Step 4: Attempt to refresh the access token
@@ -130,13 +135,13 @@ def cloud_auth():
         if new_access_token:
             # Step 5: Store the new access token in SSM
             store_token_in_ssm(token_param_name, new_access_token)
-            logger.info("Token refresh process completed successfully.")
+            print("Token refresh process completed successfully.")
         else:
-            logger.error("Failed to refresh the token. Manual intervention may be required.")
+            print("Failed to refresh the token. Manual intervention may be required.")
     else:
-        logger.info("Access token is valid. No action needed.")
+        print("Access token is valid. No action needed.")
 
-    logger.info("Token management process completed.")
+    print("Token management process completed.")
 
 
 
