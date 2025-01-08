@@ -1,0 +1,17 @@
+# for creating a task outside of a model run initialization
+
+[[tasks]]
+  id = ""    
+  type = "QAQC"  
+  description = ""			
+  inputs = ["",]				
+  notes = [""]          
+  scheduled_start = ""  
+  scheduled_end   = ""  
+  assignee = ""
+  handoff_id = ""  # optional, use this field if a task is associated with a handoff id. If not, this line should be deleted.
+
+  [[tasks.acceptance_criteria]] # custom user key/value TOML pairs (possibly nested) to describe what needs to be done with qaqc, we provide some examples below, remove if not needed
+    bounds = []
+    columns = [""] 
+    units = "" 

@@ -1,0 +1,15 @@
+name = ""  # A short team name, lowercase letters and numbers only.
+
+description = ""  # A short team description.
+
+[[members]]  # Remove if no such members
+email = ""
+first_name = ""
+last_name = ""
+organization = ""
+
+[[members]]  # Remove if no such members
+email = ""
+first_name = ""
+last_name = ""
+organization = ""
