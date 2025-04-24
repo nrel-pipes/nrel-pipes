@@ -65,7 +65,6 @@ class ProjectClient(PipesClientBase):
 
             # Add models to project runs
             m_url = f"api/models?project={p_name}&projectrun={pr_name}"
-            print(m_url)
             for raw_model in projectrun.get("models", []):
                 clean_model = raw_model.copy()
                 clean_model["name"] = raw_model["model"]
