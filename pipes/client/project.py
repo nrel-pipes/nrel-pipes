@@ -66,7 +66,7 @@ class ProjectClient(PipesClientBase):
             # Add models to project runs
             m_url = f"api/models?project={p_name}&projectrun={pr_name}"
             print(m_url)
-            for raw_model in projectrun["models"]:
+            for raw_model in projectrun.get("models", []):
                 clean_model = raw_model.copy()
                 clean_model["name"] = raw_model["model"]
                 m_name = clean_model["name"]
@@ -77,7 +77,7 @@ class ProjectClient(PipesClientBase):
                 print_response(response, suppressed=True)
 
             # Create handoff plans
-            topology = projectrun["topology"]
+            topology = projectrun.get("topology", [])
             handoffs = []
             for topo in topology:
                 for h in topo["handoffs"]:
