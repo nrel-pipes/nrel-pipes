@@ -8,17 +8,17 @@ def read_requirements():
 
 
 setup(
-    name="nrel-pipes",
-    description="A Python package for NREL PIPES developers",
+    name="nlr-pipes",
+    description="A Python package for NLR PIPES developers",
     version=__version__,
-    author="NREL",
+    author="NLR",
     author_email="jianli.gu@nrel.gov, jordan.eisenman@nrel.gov",
     packages=find_namespace_packages(include=["pipes", "pipes.*", "wrapper", "wrapper.*"]),
     python_requires=">=3.8.0",
     url="https://github.com/nrel-pipes/nrel-pipes",
     install_requires=read_requirements(),
     include_package_data=True,
-    keywords="nrel pipes",
+    keywords="nlr, pipes",
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
