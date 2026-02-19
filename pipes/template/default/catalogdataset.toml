@@ -1,0 +1,57 @@
+name = "string"  # A short name
+
+display_name = "string"  # The dataset display name
+
+description = "string"  # The description of the scheduled dataset
+
+version = "string"  # Dataset version
+
+previous_version = "string"  # Previous version of this dataset
+
+hash_value = "string"  # The hash value of this dataset used for integrity check.
+
+data_format = "string"  # data format, or a list of formats separated by commas
+
+# The schema description of the dataset
+[schema_info]
+# (use whatever structure is appropriate; empty table shown here)
+
+# The dataset location on data system
+[location]
+system_type = "string"  # The data system of the dataset location
+storage_path = "string"  # The path to the dataset within the data system
+access_info = "string"  # The access information for the dataset location
+extra_note = "string"  # Any extra note about the dataset location
+
+weather_years = [2020]  # The weather year(s) of the dataset
+
+model_years = [2020]  # The model year(s) of the dataset
+
+units = ["string"]  # The units of the dataset
+
+# The temporal metadata of the dataset
+[temporal_info]
+extent = "string"  # The temporal extent of the dataset
+fidelity = "string"  # The fidelity of the dataset in time
+
+# The spatial metadata of the dataset
+[spatial_info]
+extent = "string"  # The spatial extent of the dataset
+fidelity = "string"  # The fidelity of the dataset in space
+
+scenarios = ["string"]  # The list of scenario names the dataset relates to
+
+sensitivities = ["string"]  # The sensitivities of the dataset
+
+# The source code that produces the dataset
+[source_code]
+location = "string"  # The location of the source code
+branch = "string"  # The git branch of source code
+tag = "string"  # The git tag of source code
+image = "string"  # The location of container image
+
+relevant_links = ["string"]  # Relevant links to this dataset
+
+resource_url = "string"  # The resource URL for this dataset
+
+access_group = ["string"]  # List of access group names that have access to this model

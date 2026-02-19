@@ -193,7 +193,7 @@ def owner(project_name, projectrun_name, model_name, modelrun_name, dataset_name
         datasets = response.json()
         for dataset in datasets:
             if dataset["name"] == dataset_name:
-                print_response(f"The owner of this dataset is {dataset["registration_author"]}")
+                print_response(f"The owner of this dataset is {dataset['registration_author']}")
                 return
         print_response(f"Dataset {dataset_name} not found")
     else:

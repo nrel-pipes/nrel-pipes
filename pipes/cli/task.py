@@ -97,11 +97,14 @@ def get_task(project_name, project_run_name, model_name, model_run_name, task_id
             "project_run_name": project_run_name,
         }
     else:
-        selected = get_selected_user_context_from_session()
-        context_data = {
-            "project_name": selected["project"]["data"]["name"],
-            "project_run_name": selected["project_run"]["data"]["name"]
-        }
+        session = Session()
+        if session.contains("project") & session.contains("project_run"):
+            _project = session.get("project")
+            _project_run = session.get("project_run")
+            context_data = {
+                "project_name": _project["name"],
+                "project_run_name": _project_run["name"]
+            }
         print("Use info from session: ", json.dumps(context_data))
 
     context_data.update({
@@ -109,6 +112,7 @@ def get_task(project_name, project_run_name, model_name, model_run_name, task_id
         "model_run_name": model_run_name,
     })
 
+    client = PipesClient()
     response = client.get_task(context_data, task_id)
     print_response(response)
 
@@ -158,11 +162,14 @@ def list_tasks(project_name, project_run_name, model_name, model_run_name, hando
             "project_run_name": project_run_name,
         }
     else:
-        selected = get_selected_user_context_from_session()
-        context_data = {
-            "project_name": selected["project"]["data"]["name"],
-            "project_run_name": selected["project_run"]["data"]["name"]
-        }
+        session = Session()
+        if session.contains("project") & session.contains("project_run"):
+            _project = session.get("project")
+            _project_run = session.get("project_run")
+            context_data = {
+                "project_name": _project["name"],
+                "project_run_name": _project_run["name"]
+            }
         print("Use info from session: ", json.dumps(context_data))
 
     context_data.update({
@@ -170,6 +177,7 @@ def list_tasks(project_name, project_run_name, model_name, model_run_name, hando
         "model_run_name": model_run_name,
     })
 
+    client = PipesClient()
     response = client.list_tasks(context_data, handoff_id, task_type)
     print_response(response)
 
@@ -214,11 +222,14 @@ def plan_tasks(project_name, project_run_name, model_name, model_run_name, templ
             "project_run_name": project_run_name,
         }
     else:
-        selected = get_selected_user_context_from_session()
-        context_data = {
-            "project_name": selected["project"]["data"]["name"],
-            "project_run_name": selected["project_run"]["data"]["name"]
-        }
+        session = Session()
+        if session.contains("project") & session.contains("project_run"):
+            _project = session.get("project")
+            _project_run = session.get("project_run")
+            context_data = {
+                "project_name": _project["name"],
+                "project_run_name": _project_run["name"]
+            }
         print("Use info from session: ", json.dumps(context_data))
 
     context_data.update({
@@ -226,6 +237,7 @@ def plan_tasks(project_name, project_run_name, model_name, model_run_name, templ
         "model_run_name": model_run_name,
     })
 
+    client = PipesClient()
     response = client.plan_tasks(context_data, template_data)
     print_response(response)
 
@@ -325,11 +337,14 @@ def create_tasks(project_name, project_run_name, model_name, model_run_name, tas
             "project_run_name": project_run_name,
         }
     else:
-        selected = get_selected_user_context_from_session()
-        context_data = {
-            "project_name": selected["project"]["data"]["name"],
-            "project_run_name": selected["project_run"]["data"]["name"]
-        }
+        session = Session()
+        if session.contains("project") & session.contains("project_run"):
+            _project = session.get("project")
+            _project_run = session.get("project_run")
+            context_data = {
+                "project_name": _project["name"],
+                "project_run_name": _project_run["name"]
+            }
         print("Use info from session: ", json.dumps(context_data))
 
     context_data.update({
@@ -337,6 +352,7 @@ def create_tasks(project_name, project_run_name, model_name, model_run_name, tas
         "model_run_name": model_run_name,
     })
 
+    client = PipesClient()
     response = client.create_tasks(context_data, task_data, dataset_data, task_status)
     print_response(response)
 
@@ -380,11 +396,14 @@ def get_task_status(project_name, project_run_name, model_name, model_run_name, 
             "project_run_name": project_run_name,
         }
     else:
-        selected = get_selected_user_context_from_session()
-        context_data = {
-            "project_name": selected["project"]["data"]["name"],
-            "project_run_name": selected["project_run"]["data"]["name"]
-        }
+        session = Session()
+        if session.contains("project") & session.contains("project_run"):
+            _project = session.get("project")
+            _project_run = session.get("project_run")
+            context_data = {
+                "project_name": _project["name"],
+                "project_run_name": _project_run["name"]
+            }
         print("Use info from session: ", json.dumps(context_data))
 
     context_data.update({
@@ -393,6 +412,7 @@ def get_task_status(project_name, project_run_name, model_name, model_run_name, 
         "task_name": task_name
     })
 
+    client = PipesClient()
     response = client.get_task_status(context_data)
     print_response(response)
 
@@ -451,11 +471,14 @@ def update_task_status(project_name, project_run_name, model_name, model_run_nam
             "project_run_name": project_run_name,
         }
     else:
-        selected = get_selected_user_context_from_session()
-        context_data = {
-            "project_name": selected["project"]["data"]["name"],
-            "project_run_name": selected["project_run"]["data"]["name"]
-        }
+        session = Session()
+        if session.contains("project") & session.contains("project_run"):
+            _project = session.get("project")
+            _project_run = session.get("project_run")
+            context_data = {
+                "project_name": _project["name"],
+                "project_run_name": _project_run["name"]
+            }
         print("Use info from session: ", json.dumps(context_data))
 
     context_data.update({
@@ -464,5 +487,6 @@ def update_task_status(project_name, project_run_name, model_name, model_run_nam
         "task_name": task_name
     })
 
+    client = PipesClient()
     response = client.update_task_status(context_data, task_status)
     print_response(response)
