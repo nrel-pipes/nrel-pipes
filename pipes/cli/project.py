@@ -111,11 +111,6 @@ def template(type_name, output_file):
     if not output_file:
         output_file = type_name + ".toml"
 
-    _, ext = os.path.splitext(output_file)
-    if not ext or "toml" not in ext.lower():
-        print("Only .toml file is support as output")
-        sys.exit(1)
-
     copy_to_dir = os.path.dirname(output_file)
     if copy_to_dir and not os.path.exists(copy_to_dir):
         os.makedirs(copy_to_dir, exist_ok=True)
