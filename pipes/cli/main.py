@@ -12,6 +12,8 @@ from .server import server
 from .task import task
 from .team import team
 from .user import user
+from .catalogmodel import catalogmodel
+from .catalogdataset import catalogdataset
 
 
 
@@ -35,7 +37,8 @@ main.add_command(task)
 main.add_command(team)
 main.add_command(user)
 
-
+main.add_command(catalogmodel)
+main.add_command(catalogdataset)
 
 if __name__ == "__main__":
     main()

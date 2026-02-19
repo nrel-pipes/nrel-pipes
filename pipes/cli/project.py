@@ -36,7 +36,7 @@ def list():
     "-p", "--project-name",
     type=str,
     required=False,
-    help="The project name in unique"
+    help="The project name must be unique"
 )
 @click.option(
     "--owner",

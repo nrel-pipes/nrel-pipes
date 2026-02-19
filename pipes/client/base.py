@@ -75,10 +75,10 @@ class PipesClientBase:
             print("Connection Error: Could not connecto to PIPES server. " + str(e))
             sys.exit(1)
 
-    def patch(self, url, data: dict):
+    def patch(self, url, data: dict, params: dict = None):
         url = self.host + url
         try:
-            return requests.patch(url, data=json.dumps(data), headers=self.headers)
+            return requests.patch(url, data=json.dumps(data), params=params, headers=self.headers)
         except ConnectionError as e:
             print("Connection Error: Could not connecto to PIPES server. " + str(e))
             sys.exit(1)

@@ -7,6 +7,8 @@ from .dataset import DatasetClient
 from .team import TeamClient
 from .task import TaskClient
 from .user import UserClient
+from .catalogmodel import CatalogModelClient
+from .catalogdataset import CatalogDatasetClient
 
 
 class PipesClient(
@@ -17,5 +19,7 @@ class PipesClient(
     DatasetClient,
     TeamClient,
     UserClient,
+    CatalogModelClient,
+    CatalogDatasetClient
 ):
     pass
