@@ -132,36 +132,23 @@ def update(dataset_name, template_file, update_data):
     else:
         print_response(response.json())
 
-# @catalogdataset.command()
-# @click.option(
-#     "-t", "--type-name",
-#     type=click.Choice([
-#         'model-creation',
-#     ]),
-#     required=True,
-#     help="Choose a template type"
-# )
-# @click.option(
-#     "-o", "--output-file",
-#     type=click.Path(),
-#     default=None,
-#     help="Output template path",
-#     callback=prompt_overwrite
-# )
-# def template(type_name, output_file):
-#     """Get project related template"""
-#     if not output_file:
-#         output_file = type_name + ".toml"
+@catalogdataset.command()
+@click.option(
+    "-o", "--output-file",
+    type=click.Path(),
+    default=None,
+    help="Output template path",
+    callback=prompt_overwrite
+)
+def template(output_file):
+    """Get project related template"""
+    if not output_file:
+        output_file = "catalogdataset.toml"
 
-#     _, ext = os.path.splitext(output_file)
-#     if not ext or "toml" not in ext.lower():
-#         print("Only .toml file is support as output")
-#         sys.exit(1)
+    copy_to_dir = os.path.dirname(output_file)
+    if copy_to_dir and not os.path.exists(copy_to_dir):
+        os.makedirs(copy_to_dir, exist_ok=True)
 
-#     copy_to_dir = os.path.dirname(output_file)
-#     if copy_to_dir and not os.path.exists(copy_to_dir):
-#         os.makedirs(copy_to_dir, exist_ok=True)
+    copy_template('catalogdataset', output_file)
 
-#     copy_template(type_name, output_file)
-
-#     print(f"Template generated: {output_file}")
+    print(f"Template generated: {output_file}")
