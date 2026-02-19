@@ -132,36 +132,32 @@ def update(model_name, template_file, update_data):
     else:
         print_response(response.json())
 
-# @catalogmodel.command()
-# @click.option(
-#     "-t", "--type-name",
-#     type=click.Choice([
-#         'model-creation',
-#     ]),
-#     required=True,
-#     help="Choose a template type"
-# )
-# @click.option(
-#     "-o", "--output-file",
-#     type=click.Path(),
-#     default=None,
-#     help="Output template path",
-#     callback=prompt_overwrite
-# )
-# def template(type_name, output_file):
-#     """Get project related template"""
-#     if not output_file:
-#         output_file = type_name + ".toml"
+@catalogmodel.command()
+@click.option(
+    "-o", "--output-file",
+    type=click.Path(),
+    default=None,
+    help="Output template path",
+    callback=prompt_overwrite
+)
+@click.option(
+    "-s", "--schema-name",
+    type=click.Choice([
+        'IFAC',
+        'Default'
+    ]),
+    required=True,
+    help="Choose a catalog model schema (IFAC, Default)"
+)
+def template(schema_name, output_file):
+    """Get project related template"""
+    if not output_file:
+        output_file = f'modelcatalog_{schema_name}.toml'
 
-#     _, ext = os.path.splitext(output_file)
-#     if not ext or "toml" not in ext.lower():
-#         print("Only .toml file is support as output")
-#         sys.exit(1)
+    copy_to_dir = os.path.dirname(output_file)
+    if copy_to_dir and not os.path.exists(copy_to_dir):
+        os.makedirs(copy_to_dir, exist_ok=True)
 
-#     copy_to_dir = os.path.dirname(output_file)
-#     if copy_to_dir and not os.path.exists(copy_to_dir):
-#         os.makedirs(copy_to_dir, exist_ok=True)
+    copy_template('catalogmodel', output_file, schema_name)
 
-#     copy_template(type_name, output_file)
-
-#     print(f"Template generated: {output_file}")
+    print(f"Template generated: {output_file}")

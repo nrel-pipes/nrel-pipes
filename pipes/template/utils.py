@@ -20,8 +20,12 @@ def copy_template(typename, filename, subtype=None):
     template = TEMPLATE_FILES[typename]
     if subtype:
         template = template[subtype]
-    template_d = toml.load(open(template))
-    dump_template(template_d, filename)
+    _, ext = os.path.splitext(filename)
+    if ext != ".toml":
+        template_d = toml.load(open(template))
+        dump_template(template_d, filename)
+    else:
+        shutil.copy(template, filename)
 
 
 def load_template(filename):
@@ -79,7 +83,7 @@ def dump_template(data, filename):
                 case ".toml":
                     toml.dump(data, f)
                 case ".yaml" | ".yml":
-                    yaml.safe_dump(data, f)
+                    yaml.safe_dump(data, f, sort_keys=False)
                 case ".json":
                     json.dump(data, f, indent=2)
         except Exception as error:

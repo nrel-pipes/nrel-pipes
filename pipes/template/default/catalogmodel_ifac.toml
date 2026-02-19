@@ -1,0 +1,219 @@
+# --- Schema ---
+catalog_schema = "IFAC"                                # Schema identifier (fixed)
+schema_version = "1.0"                                # Schema version
+
+# --- Identity (Required) ---
+name = "string"                                       # Canonical identifier / short name / acronym
+display_name = "string"                               # Full human-readable title
+description = "string"                                # Tool description
+type = "string"                                       # Tool category (should match the categories from the Tools Task 3 Product Category Taxonomy if appropriate)
+
+# --- Ownership (Optional) ---
+prime_organization = "string"                         # Primary steward organization for this entry (e.g. NREL, ANL)
+
+# --- Use Cases & Tags ---
+use_cases = ["string","string"]                       # Required: IFAC use cases the tool can be used with
+tags = ["string", "string"]                           # Optional: tags from Tools Task 3 tag list
+
+# --- Links (Optional) ---
+source = "link"                                       # Code repository or other source
+website = "link"                                      # Public-facing project website (distinct from source and docs)
+documentation = "link"                                # Documentation link
+training = [ "link" ]                                 # Training material links (list)
+publications = [ "link" ]                             # Peer-reviewed publication DOIs/URLs
+example_configs = [ "link" ]                          # Example config/workflow links
+
+# --- Identifiers & Versioning (Optional) ---
+doi = "string"                                        # Software DOI (e.g., https://doi.org/10.11578/dc.20210101)
+version = "string"                                    # Tool version (semver or free-form, e.g., "2.1.0")
+branch = "string"                                     # Feature branch reference
+license_type = "string"                               # SPDX license identifier (e.g., BSD-3-Clause, Apache-2.0)
+software_type = "string"                              # DOE Code software type (e.g., Scientific/Engineering)
+
+# --- Technical (Optional) ---
+programming_languages = ["string"]                    # Languages the tool is written in (e.g., [Python, Julia])
+assumptions = ["string"]                              # Free-form list of tool assumptions
+features = ["string"]                                 # Free-form list of tool features
+
+# --- Maturity (Required) ---
+[maturity]
+software_license = true                               # Is there a software license?
+publication_history = false                           # Are there peer-reviewed publications describing innovation and dissemination of grid science and technology that this tool has supported?
+external_validation_documented = true                 # Is there external validation via a publication, e.g., via comparison to results from other methodologies, real-world events, or replicated results from external users?
+application = false                                   # Has this tool resulted in considerations used in deployment decisions, e.g., the analysis informed TA recipient decisions?
+external_validation_via_usage = true                  # Is there external validation via usage, i.e., have non-lab entities adopted this tool?
+input_output_interoperability = false                 # Is there an API for scripted coordination with other tools?
+data_accessability_public = true                      # Can a study be performed using only publicly available data?
+data_accessability_proprietary = false                # Can a study be performed with data that a utility has access to?
+secure_for_sensitive_data_handling = true             # Can the tool be run in a secure environment with sensitive data?
+secure_independent_usage = false                      # Can a user run the tool independently in a commonly accessible, secure environment (e.g. locally)?
+usability_via_GUI = true                              # Is there a GUI?
+usability_via_CLI = false                             # Is there a CLI?
+accessible_for_external_users = true                  # Can this tool be transferred to an external user for independent use?
+support_available = false                             # Is there a support team that can field requests and address bugs or concerns?
+workflow_integration_list = ["string", "string"]      # List other tools this has been integrated with or used in tandem with.
+
+# --- Teams (Required) ---
+[[teams]]
+organization = "string"                               # Organization name (e.g. NREL, ANL, ORNL)
+role = "string"                                       # Role (Developer, Maintainer, User)
+contact = "email@email.gov"                           # Contact email
+
+# --- Scenarios (Optional) ---
+[[expected_scenarios]]
+name = "string"                                       # Scenario name
+description = "string"                                # Scenario description
+
+# --- Config (Optional, positioned above requirements) ---
+[config]
+model_modes = [ "string" ]                            # Operational modes of the tool
+technologies = [ "string" ]                           # Supported technologies / sectors
+[config.model_options]                                # Major configuration switches (key: value pairs)
+option_name = "value"
+
+# --- Requirements (Required) ---
+[requirements]
+
+# Spatial
+[[requirements.spatial]]
+name = "string"                                       # Label for this spatial mode (e.g. "SpatialMode1")
+extent = "string"                                     # Spatial extent (e.g. regional, continental, CONUS, ERCOT)
+fidelity = "string"                                   # Spatial resolution (e.g. zonal, nodal, distribution)
+scope = ["string"]
+[requirements.spatial.misc]
+key = "value"                                         # Any additional miscellaneous information
+
+# Temporal
+[[requirements.temporal]]
+name = "string"                                       # Label for this temporal mode (e.g. "TemporalMode1")
+extent = "string"                                     # Temporal extent (e.g. Multi-year, Single year)
+resolution = "string"                                 # Temporal resolution (e.g. hour, 5-min, day)
+years = [2020,2021]
+weather_years = [2006,2016]
+[requirements.temporal.misc]
+key = "value"                                         # Any additional miscellaneous temporal information
+
+# Environment
+[[requirements.environment]]
+name = "string"                                       # Label for this environment (e.g. "EnvironmentInfo1")
+platform = "string"                                   # Platform (HPC, cloud, local, specific hardware)
+required_software = ["string"]                        # Software dependencies (e.g. Python 3.10, Julia 1.9, GAMS)
+licenses = ["string"]                                 # Commercial licenses needed e.g., CPLEX, Gurobi, MATLAB
+resources = "string"                                  # CPU/GPU/memory requirements (e.g., "4 cores, 16 GB RAM")
+misc = "string"                                       # Any other environment notes
+
+# Misc
+[requirements.misc]
+key = "value"
+
+# --- Inputs (Required) ---
+[[inputs]]
+[inputs.general_data_description]
+name = "string"                                       # Name of the dataset
+description = "string"                                # Description of the dataset
+priority = "string"                                   # Priority (Minimum Viable Dataset, Strongly Recommended, Optional)
+private = true                                        # Will the dataset be private?
+NDA = false                                           # Will the dataset require an NDA to access?
+category = "string"                                   # Category of the dataset
+provider = "string"                                   # Provider (e.g. Utility, Awardee, Client, Public Source, Other)
+
+[inputs.general_data_description.schema_info]
+format = "string"                                     # Format of the dataset
+fields = ["col1","col2"]                              # Fields/Columns in the dataset
+[inputs.general_data_description.schema_info.misc]
+key = "value"                                         # Any additional miscellaneous information about the data schema
+
+[inputs.general_data_description.spatial_dimensions]
+extent = "string"                                     # Spatial extent
+fidelity = "string"                                   # Spatial resolution
+scope = ["string"]
+[inputs.general_data_description.spatial_dimensions.misc]
+key = "value"
+
+[inputs.general_data_description.temporal_dimensions]
+extent = "string"                                     # Temporal extent
+resolution = "string"                                 # Temporal resolution
+years = [2020,2021]
+weather_years = [2006,2016]
+[inputs.general_data_description.temporal_dimensions.misc]
+key = "value"
+
+inputs.general_data_description.tags = ["string","string"] # Tags associated with the dataset
+
+[[inputs]]
+[inputs.dataset]
+name = "string"                                       # Name of the dataset
+description = "string"                                # Description of the dataset
+author = "string/email"                               # Author or point of contact
+date = "2026-01-01 00:00:00"                         # Date the dataset was published
+version = "string"                                    # Version of the dataset
+location = "string/link"                             # Location where the dataset can be accessed/downloaded
+
+[inputs.dataset.schema_info]
+format = "string"                                     # Format of the dataset
+fields = ["col1","col2"]                              # Fields/Columns in the dataset
+[inputs.dataset.schema_info.misc]
+key = "value"
+
+[inputs.dataset.spatial_dimensions]
+extent = "string"
+fidelity = "string"
+scope = ["string"]
+[inputs.dataset.spatial_dimensions.misc]
+key = "value"
+
+[inputs.dataset.temporal_dimensions]
+extent = "string"
+resolution = "string"
+years = [2020,2021]
+weather_years = [2006,2016]
+[inputs.dataset.temporal_dimensions.misc]
+key = "value"
+
+inputs.dataset.tags = ["load","hourly"]               # Tags associated with the data
+inputs.dataset.priority = "string"                    # Priority (Minimum Viable Dataset, Strongly Recommended, Optional)
+inputs.dataset.private = false                        # Is the dataset private?
+inputs.dataset.NDA = false                            # Does the dataset require an NDA to access?
+inputs.dataset.category = "Load Forecast"             # Category of the dataset
+inputs.dataset.provider = "Utility/Lab"               # Provider (e.g. Utility, Lab, Awardee, Client, Public Source, Other)
+
+[[inputs]]
+[inputs.misc]
+key = "value"                                         # Any additional miscellaneous information about tool inputs
+
+[[outputs]]
+[outputs.general_data_description]
+name = "string"                                       # Name of the dataset
+description = "string"                                # Description of the dataset
+priority = "string"                                   # Priority (Minimum Viable Dataset, Strongly Recommended, Optional)
+private = true                                        # Will the dataset be private?
+NDA = false                                           # Will the dataset require an NDA to access?
+category = "string"                                   # Category of the dataset
+provider = "string"                                   # Provider (e.g. Utility, Awardee, Client, Public Source, Other)
+
+[outputs.general_data_description.schema_info]
+format = "string"                                     # Format of the dataset
+fields = ["col1","col2"]                              # Fields/Columns in the dataset
+[outputs.general_data_description.schema_info.misc]
+key = "value"                                         # Any additional miscellaneous information about the data schema
+
+[outputs.general_data_description.spatial_dimensions]
+extent = "string"                                     # Spatial extent
+fidelity = "string"                                   # Spatial resolution
+scope = ["string"]
+[outputs.general_data_description.spatial_dimensions.misc]
+key = "value"
+
+[outputs.general_data_description.temporal_dimensions]
+extent = "string"                                     # Temporal extent
+resolution = "string"                                 # Temporal resolution
+years = [2020,2021]
+weather_years = [2006,2016]
+[outputs.general_data_description.temporal_dimensions.misc]
+key = "value"
+
+outputs.general_data_description.tags = ["string","string"] # Tags associated with the dataset
+
+[[outputs]]
+[outputs.misc]
+key = "value"                                         # Any additional miscellaneous information about tool outputs

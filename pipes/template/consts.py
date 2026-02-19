@@ -17,5 +17,10 @@ TEMPLATE_FILES = {
         "QAQC": TEMPLATE_DIR / "task_creation_qaqc.toml",
         "Transformation": TEMPLATE_DIR / "task_creation_transformation.toml",
         "Visualization": TEMPLATE_DIR / "task_creation_visualization.toml"
-    }
+    },
+    "catalogmodel":{
+        "IFAC": TEMPLATE_DIR / "catalogmodel_ifac.toml",
+        "Default": TEMPLATE_DIR / "catalogmodel_default.toml"
+    },
+    "catalogdataset": TEMPLATE_DIR / "catalogdataset.toml"
 }
