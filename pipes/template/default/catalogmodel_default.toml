@@ -1,12 +1,13 @@
-catalog_schema = "string"             # Catalog specsheet schema identifier. [Options: Default, IFAC].
-schema_version  = "string"            # Schema version this specsheet was authored against (e.g. '1.0').
+catalog_schema = "Default"            # Catalog specsheet schema identifier. [Options: Default, IFAC].
+schema_version  = "1.0"               # Schema version this specsheet was authored against (e.g. '1.0').
 name            = "string"            # the model name
 display_name    = "string"            # Display name for this model vertex.
 type            = "string"            # Type of model to use in graphic headers (e.g, 'Capacity Expansion')
 description     = ["string"]          # Description of the model
 assumptions     = ["string"]          # List of model assumptions
-requirements    = { key = "value" }   # Model specific requirements (if different from Project and Project-Run)
 expected_scenarios = ["string"]       # List of expected model scenarios
+[requirements]                        # Model specific requirements (if different from Project and Project-Run)
+    key = "value"
 
 # Information about the modeling team
 [modeling_team]
@@ -14,7 +15,7 @@ name = "string"                       # Name of the modeling team
 
 # Each member is a table in the members array
 [[modeling_team.members]]
-email        = "string"               # Email address
+email        = "string@string.com"    # Email address
 first_name   = "string"               # First name
 last_name    = "string"               # Last name
 organization = "string"               # Organization name

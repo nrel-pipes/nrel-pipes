@@ -116,6 +116,7 @@ private = true                                        # Will the dataset be priv
 NDA = false                                           # Will the dataset require an NDA to access?
 category = "string"                                   # Category of the dataset
 provider = "string"                                   # Provider (e.g. Utility, Awardee, Client, Public Source, Other)
+tags = ["string","string"] # Tags associated with the dataset
 
 [inputs.general_data_description.schema_info]
 format = "string"                                     # Format of the dataset
@@ -124,6 +125,7 @@ fields = ["col1","col2"]                              # Fields/Columns in the da
 key = "value"                                         # Any additional miscellaneous information about the data schema
 
 [inputs.general_data_description.spatial_dimensions]
+name = "string"                                       # Label for this spatial dimension (e.g. "SpatialDimensions")
 extent = "string"                                     # Spatial extent
 fidelity = "string"                                   # Spatial resolution
 scope = ["string"]
@@ -131,14 +133,13 @@ scope = ["string"]
 key = "value"
 
 [inputs.general_data_description.temporal_dimensions]
+name = "string"                                       # Label for this temporal dimension (e.g. "TemporalDimensions")
 extent = "string"                                     # Temporal extent
 resolution = "string"                                 # Temporal resolution
 years = [2020,2021]
 weather_years = [2006,2016]
 [inputs.general_data_description.temporal_dimensions.misc]
 key = "value"
-
-inputs.general_data_description.tags = ["string","string"] # Tags associated with the dataset
 
 [[inputs]]
 [inputs.dataset]
@@ -148,6 +149,12 @@ author = "string/email"                               # Author or point of conta
 date = "2026-01-01 00:00:00"                         # Date the dataset was published
 version = "string"                                    # Version of the dataset
 location = "string/link"                             # Location where the dataset can be accessed/downloaded
+tags = ["load","hourly"]               # Tags associated with the data
+priority = "string"                    # Priority (Minimum Viable Dataset, Strongly Recommended, Optional)
+private = false                        # Is the dataset private?
+NDA = false                            # Does the dataset require an NDA to access?
+category = "Load Forecast"             # Category of the dataset
+provider = "Utility/Lab"               # Provider (e.g. Utility, Lab, Awardee, Client, Public Source, Other)
 
 [inputs.dataset.schema_info]
 format = "string"                                     # Format of the dataset
@@ -156,6 +163,7 @@ fields = ["col1","col2"]                              # Fields/Columns in the da
 key = "value"
 
 [inputs.dataset.spatial_dimensions]
+name = "string"                                       # Label for this spatial dimension (e.g. "SpatialDimensions")
 extent = "string"
 fidelity = "string"
 scope = ["string"]
@@ -163,19 +171,13 @@ scope = ["string"]
 key = "value"
 
 [inputs.dataset.temporal_dimensions]
+name = "string"                                       # Label for this temporal dimension (e.g. "TemporalDimensions")
 extent = "string"
 resolution = "string"
 years = [2020,2021]
 weather_years = [2006,2016]
 [inputs.dataset.temporal_dimensions.misc]
 key = "value"
-
-inputs.dataset.tags = ["load","hourly"]               # Tags associated with the data
-inputs.dataset.priority = "string"                    # Priority (Minimum Viable Dataset, Strongly Recommended, Optional)
-inputs.dataset.private = false                        # Is the dataset private?
-inputs.dataset.NDA = false                            # Does the dataset require an NDA to access?
-inputs.dataset.category = "Load Forecast"             # Category of the dataset
-inputs.dataset.provider = "Utility/Lab"               # Provider (e.g. Utility, Lab, Awardee, Client, Public Source, Other)
 
 [[inputs]]
 [inputs.misc]
@@ -190,6 +192,7 @@ private = true                                        # Will the dataset be priv
 NDA = false                                           # Will the dataset require an NDA to access?
 category = "string"                                   # Category of the dataset
 provider = "string"                                   # Provider (e.g. Utility, Awardee, Client, Public Source, Other)
+tags = ["string","string"] # Tags associated with the dataset
 
 [outputs.general_data_description.schema_info]
 format = "string"                                     # Format of the dataset
@@ -198,6 +201,7 @@ fields = ["col1","col2"]                              # Fields/Columns in the da
 key = "value"                                         # Any additional miscellaneous information about the data schema
 
 [outputs.general_data_description.spatial_dimensions]
+name = "string"                                       # Label for this spatial dimension (e.g. "SpatialDimensions")
 extent = "string"                                     # Spatial extent
 fidelity = "string"                                   # Spatial resolution
 scope = ["string"]
@@ -205,14 +209,13 @@ scope = ["string"]
 key = "value"
 
 [outputs.general_data_description.temporal_dimensions]
+name = "string"                                       # Label for this temporal dimension (e.g. "TemporalDimensions")
 extent = "string"                                     # Temporal extent
 resolution = "string"                                 # Temporal resolution
 years = [2020,2021]
 weather_years = [2006,2016]
 [outputs.general_data_description.temporal_dimensions.misc]
 key = "value"
-
-outputs.general_data_description.tags = ["string","string"] # Tags associated with the dataset
 
 [[outputs]]
 [outputs.misc]

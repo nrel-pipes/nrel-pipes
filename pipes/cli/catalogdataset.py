@@ -88,7 +88,10 @@ def create(template_file):
     data = load_template(template_file)
     client = PipesClient()
     response = client.create_catalogdataset(data)
-    print_response(response["detail"])
+    if 'detail' in response.json():
+        print_response(response.json()['detail'])
+    else:
+        print_response(response.json())
 
 @catalogdataset.command()
 @click.option(

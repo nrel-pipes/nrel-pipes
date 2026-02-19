@@ -38,21 +38,21 @@ def load_template(filename):
                     data = toml.load(f)
                 except Exception as error:
                     response = {
-                    "code": "N/A",
-                    "details": f"Failed to load TOML template '{filename}'. {type(error).__name__}: {error}."
-                }
-                print_response(response)
-                sys.exit(1)
+                        "code": "N/A",
+                        "details": f"Failed to load TOML template '{filename}'. {type(error).__name__}: {error}."
+                    }
+                    print_response(response)
+                    sys.exit(1)
             case ".yaml" | ".yml":
                 try:
                     data = yaml.safe_load(f)
                 except yaml.YAMLError as error:
                     response = {
                         "code": "N/A",
-                    "details": f"Failed to load YAML template '{filename}'. {type(error).__name__}: {error}."
-                }
-                print_response(response)
-                sys.exit(1)
+                        "details": f"Failed to load YAML template '{filename}'. {type(error).__name__}: {error}."
+                    }
+                    print_response(response)
+                    sys.exit(1)
             case ".json":
                 try:
                     data = json.load(f)
